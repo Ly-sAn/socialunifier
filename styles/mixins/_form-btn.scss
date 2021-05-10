@@ -1,0 +1,21 @@
+@import '../variables/variables';
+
+// mixin for submit btn for Form authentication ( register, login )
+@mixin btn_authentication () {
+  button {
+    height: 30px;
+    width: 163px;
+    outline: none;
+    border: none;
+    background-color: $btn-background-color;
+    color: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .1s ease-in;
+    border-radius: 30px;
+
+    &:hover {
+      background-color: $btn-hover-color;
+    }
+  }
+}
