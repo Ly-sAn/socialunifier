@@ -1,0 +1,27 @@
+
+
+// Media for mobile only
+@mixin media-phone {
+  @media (max-width: 599px) {
+    @content
+  }
+}
+
+// Media for portrait tablet
+@mixin media-for-tablet-portrait {
+  @media (min-width: 600px) {
+    @content
+  }
+}
+
+@mixin media-for-tablet-landscape {
+  @media (min-width: 900px) {
+    @content
+  }
+}
+
+@mixin media-between {
+  @media (min-width: 600px) and (max-width: 900px) {
+    @content
+  }
+}

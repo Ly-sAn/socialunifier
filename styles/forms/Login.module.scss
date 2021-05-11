@@ -1,4 +1,5 @@
 @import '../mixins/form-btn';
+@import '../mixins/media-query';
 
 .form_container {
   width: 100%;
@@ -148,5 +149,140 @@
         }
       }
     }
+  }
+}
+
+
+// Mobile responsive
+@include media-phone {
+
+  .form_container {
+
+    .container {
+      .moved_element {
+        flex-direction: column;
+
+        .form_register_left_login, .form_register_right_login {
+          width: 100%;
+        }
+
+        .form_register_left_login {
+
+          .form_register_left_content {
+            padding: 0px;
+
+            > h1 {
+              font-size: 3em;
+            }
+
+            > h3 {
+              font-size: 3em;
+              margin-top: -73px;
+            }
+          }
+
+        }
+
+        .form_register_right_login {
+          align-items: unset;
+
+          .form_container_right {
+            height: 80%;
+
+            .form_register {
+
+              > button {
+                margin-bottom: 20px;
+                padding: 10px 0px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              }
+
+            }
+
+            .form_register_text {
+              padding: 0;
+
+              &::after {
+                margin-bottom: 25px;
+              }
+            }
+
+          }
+
+        }
+
+      }
+
+    }
+
+  }
+
+}
+
+
+@include media-between {
+  .form_container {
+
+    .container {
+      .moved_element {
+        flex-direction: column;
+
+        .form_register_left_login, .form_register_right_login {
+          width: 100%;
+        }
+
+        .form_register_left_login {
+
+          .form_register_left_content {
+            padding: 0px;
+
+            > h1 {
+              font-size: 3em;
+            }
+
+            > h3 {
+              font-size: 3em;
+              margin-top: -73px;
+            }
+          }
+
+        }
+
+        .form_register_right_login {
+          align-items: unset;
+
+          .form_container_right {
+            height: 80%;
+
+            .form_register {
+
+              > button {
+                margin-bottom: 20px;
+                padding: 10px 0px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              }
+
+            }
+
+            .form_register_text {
+              padding: 0;
+
+              &::after {
+                margin-bottom: 25px;
+              }
+            }
+
+          }
+
+        }
+
+      }
+
+    }
+
   }
 }

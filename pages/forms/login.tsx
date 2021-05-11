@@ -12,8 +12,8 @@ export default function Login() {
                     <section className={loginStyles.moved_element}>
                         <section className={loginStyles.form_register_left_login}>
                             <div className={loginStyles.form_register_left_content}>
-                                <h1>Social-Unifier</h1>
-                                <h3>Welcome to register page</h3>
+                                <h1>Social Unifier</h1>
+                                <h3>Welcome to login page</h3>
                             </div>
                         </section>
                         <section className={loginStyles.form_register_right_login}>
