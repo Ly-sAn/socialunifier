@@ -22,9 +22,7 @@
       "node_modules"
     ],
     "include": [
-      "next-env.d.ts",
-      "styles.d.ts",
       "**/*.ts",
       "**/*.tsx"
-, "components/navbar.tsx"    ]
+    ]
   }
