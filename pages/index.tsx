@@ -10,7 +10,7 @@ export default function Home() {
         <title>Social Unifier</title>
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <div className='bg-gradient-to-r from-blue-400 to-green-500 border-b'>
+      <div className='bg-gradient-to-r from-blue-300 to-green-400 border-b'>
         <Navbar />
 
         <div className="container mx-auto">
@@ -99,14 +99,9 @@ export default function Home() {
           </section>
 
         </div>
-
-
-
       </div>
-      <section className="bg-gray-100 border-b py-8">
-      <div className="container max-w-5xl mx-auto m-8">
-
-
+      <section className="bg-gray-200 border-b py-6">
+      <div className="container max-w-5xl mx-auto">
         <div className="flex flex-wrap">
           <div className="w-5/6 sm:w-1/2 p-6">
             <h3 className="text-3xl text-gray-800 font-bold leading-none mb-3">
@@ -559,7 +554,7 @@ export default function Home() {
               <p className="text-gray-600 mb-8">
                 Ne manquez plus un client ! Les récents évènements ont prouvé à quel point 
                 les réseaux sociaux sont un outil majeur pour les entreprises. <br/> <br/>
-                Il serait dommage de passer à côté !
+                Un nouveau marché vous attend !
               </p>
             </div>
           </div>
@@ -567,19 +562,37 @@ export default function Home() {
       </div>
     </section>
 
-
-    <div className=" md:p-24 text-center bg-blue-200">
+    <section>
+    <div className=" p-10 md:p-24 text-center bg-green-300">
 					<h2 className="font-bold break-normal text-2xl md:text-4xl">Souscrire à la newsletter</h2>
-					<h3 className="font-bold break-normal font-normal text-gray-600 text-base md:text-xl">Tenez-vous au courant des dernières nouveautés</h3>
+					<h3 className="font-bold break-normal text-gray-600 text-base md:text-xl">Tenez-vous au courant des dernières nouveautés</h3>
 					<div className="w-full text-center pt-4">
 						<form action="#">
 							<div className="max-w-xl mx-auto p-1 pr-0 flex flex-wrap items-center">
 								<input type="email" placeholder="votre.email@exemple.fr" className="flex-1 appearance-none rounded shadow p-3 text-gray-600 mr-2 focus:outline-none"></input>
-								<button type="submit" className="flex-1 mt-4 md:mt-0 block md:inline-block appearance-none bg-green-500 text-white text-base font-semibold tracking-wider uppercase py-4 rounded shadow hover:bg-green-400">Souscrire</button>
+								<button type="submit" className="flex-1  md:mt-0 block md:inline-block appearance-none bg-blue-400 text-white text-base font-semibold tracking-wider uppercase py-4 rounded shadow hover:bg-blue-500">Souscrire</button>
 							</div>
 						</form>
 					</div>
 				</div>
+    </section>
+
+    <section className="bg-gray-200 border-b py-6">
+      <div>
+caca
+      </div>
+
+    </section>
+    
+    <section className="bg-gradient-to-r from-blue-300 to-green-400  py-1">
+      <div>
+        <h5 className="text-center font-mono font-medium text-white">Mai 2021 / Coding Factory 👾</h5>
+      </div>
+
+    </section>
+
+    
+    
 
 
     </div>
