@@ -26,5 +26,5 @@
       "styles.d.ts",
       "**/*.ts",
       "**/*.tsx"
-    ]
+, "components/navbar.tsx"    ]
   }
