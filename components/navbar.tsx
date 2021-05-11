@@ -1,7 +1,13 @@
 import Link from 'next/link';
 import { useState } from 'react';
 
-export default () => {
+// Before
+// export default () => <div />;
+
+// After
+// const Named = () => <div />;
+// export default Named;
+const Navbar = () => {
 
     const [active, setActive] = useState(false);
 
@@ -11,7 +17,7 @@ export default () => {
 
     return (
         <>
-        <nav className='flex items-center flex-wrap bg-gradient-to-r from-blue-400 to-green-500 p-3 '>
+        <nav className='flex items-center flex-wrap p-3 '>
           <Link href='/'>
             <a className='inline-flex items-center p-2 mr-4 '>
               <span className='text-3xl text-white font-bold uppercase tracking-wide'>
@@ -38,7 +44,6 @@ export default () => {
               />
             </svg>
           </button>
-          {/*Note that in this div we will use a ternary operator to decide whether or not to display the content of the div  */}
           <div
             className={`${
               active ? '' : 'hidden'
@@ -47,23 +52,23 @@ export default () => {
             <div className='lg:inline-flex lg:flex-row lg:ml-auto lg:w-auto w-full lg:items-center items-start  flex flex-col lg:h-auto'>
               <Link href='/'>
                 <a className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:text-blue-100'>
-                  About us
+                  L'équipe
                 </a>
               </Link>
               <Link href='/'>
                 <a className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:text-blue-100'>
-                  Contact us
+                  Nous contacter
                 </a>
               </Link>
               <Link href='/'>
                 <a className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:text-blue-100'>
-                  Log In
+                  Connexion
                 </a>
               </Link>
               <Link href='/'>
               <button
                     className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-3 border border-gray-400 rounded shadow">
-                    Sign Up
+                    Inscription
                 </button>
               </Link>
             </div>
@@ -72,3 +77,5 @@ export default () => {
       </>
     )
 }
+
+export default Navbar;
