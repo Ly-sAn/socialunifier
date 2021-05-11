@@ -1,12 +1,14 @@
 import styles from "../../styles/forms/Register.module.scss";
 import loginStyles from "../../styles/forms/Login.module.scss";
 import Link from "next/link";
+import Navbar from '../../components/navbar';
 
 
 export default function Login() {
 
     return (
         <>
+            <Navbar />
             <section className={loginStyles.form_container}>
                 <section className={loginStyles.container}>
                     <section className={loginStyles.moved_element}>
@@ -41,7 +43,7 @@ export default function Login() {
 
                                 <p className={loginStyles.exist_account}>Don't have an account ?
                                     <span>
-                                    <Link href="#">
+                                    <Link href="/forms/register">
                                         <a>Join us now</a>
                                     </Link>
                                 </span>

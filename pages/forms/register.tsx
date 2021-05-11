@@ -1,10 +1,12 @@
-import Link from 'next/link'
-import styles from '../../styles/forms/Register.module.scss'
+import Link from 'next/link';
+import styles from '../../styles/forms/Register.module.scss';
+import Navbar from '../../components/navbar';
 
 export default function Register() {
 
     return (
         <>
+            <Navbar/>
             <section className={styles.form_container}>
                 <section className={styles.container}>
                     <section className={styles.moved_element}>
@@ -42,7 +44,7 @@ export default function Register() {
                                 <button type="submit" form={styles.form_register}>Create Account</button>
                                 <p className={styles.exist_account}>Already have an account ?
                                     <span>
-                                    <Link href="#">
+                                    <Link href="/forms/login">
                                         <a>Log in</a>
                                     </Link>
                                 </span>
