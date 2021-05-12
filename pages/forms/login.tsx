@@ -1,17 +1,13 @@
-import styles from "../../styles/forms/Register.module.scss";
 import loginStyles from "../../styles/forms/Login.module.scss";
 import Link from "next/link";
 import Navbar from '../../components/navbar';
-import { fetchApi } from "../../lib/api";
+import { fetchApi, LoginError } from "../../lib/api";
 import router from "next/router";
-import { useState } from "react";
-import ErrorBanner from "../../components/error-banner";
+import ErrorBanner, { showError } from "../../components/error-banner";
 
 
 export default function Login() {
     
-    const [errorMessage, setErrorMessage] = useState<string>(null);
-
     async function login(e) {
         e.preventDefault()
 
@@ -23,7 +19,14 @@ export default function Login() {
         if (result.success)
             router.push('/temp/account');
         else {
-            // gestion des erreurs
+            let message: string;
+            switch (result.reason) {
+                case LoginError.InvalidLogins:
+                    message = "Email ou mot de passe invalid"; break;            
+                default:
+                    message = "Une erreur est survenue"; break;
+            }
+            showError(message);
         }
     }
 
@@ -61,7 +64,6 @@ export default function Login() {
 
                                     <button type="submit">Sign in</button>
 
-                                    {errorMessage ? <ErrorBanner>{errorMessage}</ErrorBanner> : ''}
                                 </form>
 
                                 <p className={loginStyles.exist_account}>Don't have an account ?
@@ -71,6 +73,7 @@ export default function Login() {
                                     </Link>
                                 </span>
                                 </p>
+                                <ErrorBanner/>
                             </div>
                         </div>
                     </div>

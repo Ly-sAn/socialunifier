@@ -3,17 +3,16 @@ import styles from '../../styles/forms/Register.module.scss';
 import Navbar from '../../components/navbar';
 import router from 'next/router';
 import { fetchApi, RegisterError } from '../../lib/api';
-import React, { useState } from 'react';
-import ErrorBanner from '../../components/error-banner';
+import React from 'react';
+import ErrorBanner, { showError } from '../../components/error-banner';
 
 export default function Register() {
-    const [errorMessage, setErrorMessage] = useState<string>(null);
-
     async function register(e) {
         e.preventDefault()
 
-        if (e.target.password.value !== e.target.passwordConfirm.value)
-            return setErrorMessage("Mots de passe différents")
+        if (e.target.password.value !== e.target.passwordConfirm.value) {
+            return showError("Mots de passe différents")
+        }
 
         const result = await fetchApi('/api/register', 'POST', {
             email: e.target.email.value,
@@ -23,13 +22,22 @@ export default function Register() {
         if (result.success)
             router.push('/temp/account');
         else {
-            // gestion des erreurs
+            var message: string;
+            switch (result.reason) {
+                case RegisterError.ExistingEmail:
+                    message = "Cette email est déja utilisé"; break;
+                case RegisterError.InvalidEmail:
+                    message = "Email invalid"; break;
+                default:
+                    message = "Une erreur est survenue"; break;
+            }
+            showError(message)
         }
     }
 
     return (
         <>
-            <Navbar/>
+            <Navbar />
             <section className={styles.form_container}>
                 <div className={styles.container}>
                     <div className={styles.moved_element}>
@@ -48,19 +56,19 @@ export default function Register() {
                                 <form onSubmit={register} id={styles.form_register}>
                                     <div className={styles.form_group}>
                                         <label htmlFor="userName">Full name</label>
-                                        <input name="userName" type="text" required/>
+                                        <input name="userName" type="text" required />
                                     </div>
                                     <div className={styles.form_group}>
                                         <label htmlFor="email">Email</label>
-                                        <input name="email" type="email" required/>
+                                        <input name="email" type="email" required />
                                     </div>
                                     <div className={styles.form_group}>
                                         <label htmlFor="password">Password</label>
-                                        <input name="password" type="password" required/>
+                                        <input name="password" type="password" required />
                                     </div>
                                     <div className={styles.form_group}>
                                         <label htmlFor="passwordConfirm">Confirm password</label>
-                                        <input name="passwordConfirm" type="password" required/>
+                                        <input name="passwordConfirm" type="password" required />
                                     </div>
 
                                 </form>
@@ -68,12 +76,12 @@ export default function Register() {
                                 <button type="submit" form={styles.form_register}>Create Account</button>
                                 <p className={styles.exist_account}>Already have an account ?
                                     <span>
-                                    <Link href="/forms/login">
-                                        <a>Log in</a>
-                                    </Link>
-                                </span>
+                                        <Link href="/forms/login">
+                                            <a>Log in</a>
+                                        </Link>
+                                    </span>
                                 </p>
-                                    {errorMessage ? <ErrorBanner>{errorMessage}</ErrorBanner> : ''}
+                                <ErrorBanner />
                             </div>
                         </div>
                     </div>

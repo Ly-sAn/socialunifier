@@ -8,8 +8,8 @@ db.serialize(() => {
     db.run(`
         CREATE TABLE IF NOT EXISTS "User" (
             "Id"	INTEGER NOT NULL UNIQUE,
-            "UserName"	TEXT NOT NULL,
             "Email"	TEXT NOT NULL UNIQUE,
+            "UserName"	TEXT NOT NULL,
             "PasswordHash"	TEXT NOT NULL,
             PRIMARY KEY("Id" AUTOINCREMENT)
         );

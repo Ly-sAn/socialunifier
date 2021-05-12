@@ -31,5 +31,6 @@ interface SessionRequest extends NextApiRequest {
 
 type DbUser = {
     Email: string,
+    UserName: string
     PasswordHash: string
 }
