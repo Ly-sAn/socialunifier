@@ -2,9 +2,25 @@ import styles from "../../styles/forms/Register.module.scss";
 import loginStyles from "../../styles/forms/Login.module.scss";
 import Link from "next/link";
 import Navbar from '../../components/navbar';
+import { fetchApi } from "../../lib/api";
+import router from "next/router";
 
 
 export default function Login() {
+
+    async function login(e) {
+        e.preventDefault()
+
+        const result = await fetchApi('/api/login', 'POST', {
+            email: e.target.email.value,
+            password: e.target.password.value,
+        });
+        if (result.success)
+            router.push('/temp/account');
+        else {
+            // gestion des erreurs
+        }
+    }
 
     return (
         <>
@@ -28,14 +44,14 @@ export default function Login() {
                                     <h4>Login to your account</h4>
                                 </div>
 
-                                <form action="" className={loginStyles.form_register}>
+                                <form onSubmit={login} className={loginStyles.form_register}>
                                     <div className={loginStyles.form_group}>
-                                        <label htmlFor="#">Username / E-mail</label>
-                                        <input type="text"/>
+                                        <label htmlFor="email">E-mail</label>
+                                        <input name="email" type="email" required/>
                                     </div>
                                     <div className={loginStyles.form_group}>
-                                        <label htmlFor="#">Password</label>
-                                        <input type="password"/>
+                                        <label htmlFor="password">Password</label>
+                                        <input name="password" type="password" required/>
                                     </div>
 
                                     <button type="submit" form={loginStyles.form_register}>Sign in</button>

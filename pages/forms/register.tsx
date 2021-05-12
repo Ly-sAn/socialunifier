@@ -1,8 +1,24 @@
 import Link from 'next/link';
 import styles from '../../styles/forms/Register.module.scss';
 import Navbar from '../../components/navbar';
+import router from 'next/router';
+import { fetchApi, RegisterError } from '../../lib/api';
 
 export default function Register() {
+
+    async function register(e) {
+        e.preventDefault()
+
+        const result = await fetchApi('/api/register', 'POST', {
+            email: e.target.email.value,
+            password: e.target.password.value,
+        });
+        if (result.success)
+            router.push('/temp/account');
+        else {
+            // gestion des erreurs
+        }
+    }
 
     return (
         <>
@@ -22,18 +38,18 @@ export default function Register() {
                                     <h2>Register</h2>
                                 </div>
 
-                                <form action="" id={styles.form_register}>
+                                <form onSubmit={register} id={styles.form_register}>
                                     <div className={styles.form_group}>
                                         <label htmlFor="#">Full name</label>
                                         <input type="text"/>
                                     </div>
                                     <div className={styles.form_group}>
-                                        <label htmlFor="#">Email</label>
-                                        <input type="email"/>
+                                        <label htmlFor="email">Email</label>
+                                        <input name="email" type="email" required/>
                                     </div>
                                     <div className={styles.form_group}>
-                                        <label htmlFor="#">Password</label>
-                                        <input type="password"/>
+                                        <label htmlFor="password">Password</label>
+                                        <input name="password" type="password" required/>
                                     </div>
                                     <div className={styles.form_group}>
                                         <label htmlFor="#">Confirm password</label>
