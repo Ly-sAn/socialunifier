@@ -31,15 +31,15 @@ export default function Login() {
         <>
             <Navbar />
             <section className={loginStyles.form_container}>
-                <section className={loginStyles.container}>
-                    <section className={loginStyles.moved_element}>
-                        <section className={loginStyles.form_register_left_login}>
+                <div className={loginStyles.container}>
+                    <div className={loginStyles.moved_element}>
+                        <div className={loginStyles.form_register_left_login}>
                             <div className={loginStyles.form_register_left_content}>
                                 <h1>Social Unifier</h1>
                                 <h3>Welcome to login page</h3>
                             </div>
-                        </section>
-                        <section className={loginStyles.form_register_right_login}>
+                        </div>
+                        <div className={loginStyles.form_register_right_login}>
                             <div className={loginStyles.form_container_right}>
                                 <div className={loginStyles.form_register_title}>
                                     <h2>Login</h2>
@@ -72,9 +72,9 @@ export default function Login() {
                                 </span>
                                 </p>
                             </div>
-                        </section>
-                    </section>
-                </section>
+                        </div>
+                    </div>
+                </div>
             </section>
         </>
     )

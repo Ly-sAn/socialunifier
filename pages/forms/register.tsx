@@ -31,15 +31,15 @@ export default function Register() {
         <>
             <Navbar/>
             <section className={styles.form_container}>
-                <section className={styles.container}>
-                    <section className={styles.moved_element}>
-                        <section className={styles.form_register_left}>
+                <div className={styles.container}>
+                    <div className={styles.moved_element}>
+                        <div className={styles.form_register_left}>
                             <div className={styles.form_register_left_content}>
                                 <h1>Social Unifier</h1>
                                 <h3>Welcome to register page</h3>
                             </div>
-                        </section>
-                        <section className={styles.form_register_right}>
+                        </div>
+                        <div className={styles.form_register_right}>
                             <div className={styles.form_container_right}>
                                 <div className={styles.form_register_title}>
                                     <h2>Register</h2>
@@ -75,9 +75,9 @@ export default function Register() {
                                 </p>
                                     {errorMessage ? <ErrorBanner>{errorMessage}</ErrorBanner> : ''}
                             </div>
-                        </section>
-                    </section>
-                </section>
+                        </div>
+                    </div>
+                </div>
             </section>
         </>
     )
