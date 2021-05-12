@@ -10,11 +10,15 @@ export default function Login() {
 
     async function login(e) {
         e.preventDefault()
+        console.log('1');
+        
 
         const result = await fetchApi('/api/login', 'POST', {
             email: e.target.email.value,
             password: e.target.password.value,
         });
+        console.log(result);
+        
         if (result.success)
             router.push('/temp/account');
         else {
@@ -54,7 +58,7 @@ export default function Login() {
                                         <input name="password" type="password" required/>
                                     </div>
 
-                                    <button type="submit" form={loginStyles.form_register}>Sign in</button>
+                                    <button type="submit">Sign in</button>
                                 </form>
 
                                 <p className={loginStyles.exist_account}>Don't have an account ?
