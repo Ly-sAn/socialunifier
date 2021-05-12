@@ -3,15 +3,22 @@ import styles from '../../styles/forms/Register.module.scss';
 import Navbar from '../../components/navbar';
 import router from 'next/router';
 import { fetchApi, RegisterError } from '../../lib/api';
+import React, { useState } from 'react';
+import ErrorBanner from '../../components/error-banner';
 
 export default function Register() {
+    const [errorMessage, setErrorMessage] = useState<string>(null);
 
     async function register(e) {
         e.preventDefault()
 
+        if (e.target.password.value !== e.target.passwordConfirm.value)
+            return setErrorMessage("Mots de passe différents")
+
         const result = await fetchApi('/api/register', 'POST', {
             email: e.target.email.value,
             password: e.target.password.value,
+            userName: e.target.userName.value,
         });
         if (result.success)
             router.push('/temp/account');
@@ -40,8 +47,8 @@ export default function Register() {
 
                                 <form onSubmit={register} id={styles.form_register}>
                                     <div className={styles.form_group}>
-                                        <label htmlFor="#">Full name</label>
-                                        <input type="text"/>
+                                        <label htmlFor="userName">Full name</label>
+                                        <input name="userName" type="text" required/>
                                     </div>
                                     <div className={styles.form_group}>
                                         <label htmlFor="email">Email</label>
@@ -52,9 +59,10 @@ export default function Register() {
                                         <input name="password" type="password" required/>
                                     </div>
                                     <div className={styles.form_group}>
-                                        <label htmlFor="#">Confirm password</label>
-                                        <input type="password"/>
+                                        <label htmlFor="passwordConfirm">Confirm password</label>
+                                        <input name="passwordConfirm" type="password" required/>
                                     </div>
+
                                 </form>
 
                                 <button type="submit" form={styles.form_register}>Create Account</button>
@@ -65,6 +73,7 @@ export default function Register() {
                                     </Link>
                                 </span>
                                 </p>
+                                    {errorMessage ? <ErrorBanner>{errorMessage}</ErrorBanner> : ''}
                             </div>
                         </section>
                     </section>

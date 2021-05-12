@@ -8,6 +8,7 @@ db.serialize(() => {
     db.run(`
         CREATE TABLE IF NOT EXISTS "User" (
             "Id"	INTEGER NOT NULL UNIQUE,
+            "UserName"	TEXT NOT NULL,
             "Email"	TEXT NOT NULL UNIQUE,
             "PasswordHash"	TEXT NOT NULL,
             PRIMARY KEY("Id" AUTOINCREMENT)
@@ -18,9 +19,9 @@ db.serialize(() => {
 
 export default class database {
 
-    static register({ email, pwdHash }) {
+    static register({ email, pwdHash, userName }) {
         return new Promise<void>((resolve, reject) => {
-            db.run('INSERT INTO User (Email, PasswordHash) VALUES ($email, $pwd)', { $email: email, $pwd: pwdHash }, err => {
+            db.run('INSERT INTO User (Email, PasswordHash, UserName) VALUES ($email, $pwd, $userName)', { $email: email, $pwd: pwdHash, $userName: userName }, err => {
                 if (err)
                     reject(err);
                 else

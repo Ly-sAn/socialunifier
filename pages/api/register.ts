@@ -10,13 +10,13 @@ const emailRegex =  /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"
 export default withSession(async (req, res: NextApiResponse<ApiResult>) => {
 
   try {
-    const { email, password } = await req.body;
+    const { email, password, userName } = await req.body;
 
     if (!emailRegex.test(email))
       return res.json({ success: false, reason: RegisterError.InvalidEmail})
 
     const hash = await bcrypt.hash(password, 3);
-    await database.register({ email, pwdHash: hash });
+    await database.register({ email, pwdHash: hash, userName });
 
     req.session.set("user", { email });
     await req.session.save();

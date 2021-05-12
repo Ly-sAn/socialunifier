@@ -4,20 +4,21 @@ import Link from "next/link";
 import Navbar from '../../components/navbar';
 import { fetchApi } from "../../lib/api";
 import router from "next/router";
+import { useState } from "react";
+import ErrorBanner from "../../components/error-banner";
 
 
 export default function Login() {
+    
+    const [errorMessage, setErrorMessage] = useState<string>(null);
 
     async function login(e) {
         e.preventDefault()
-        console.log('1');
-        
 
         const result = await fetchApi('/api/login', 'POST', {
             email: e.target.email.value,
             password: e.target.password.value,
         });
-        console.log(result);
         
         if (result.success)
             router.push('/temp/account');
@@ -59,6 +60,8 @@ export default function Login() {
                                     </div>
 
                                     <button type="submit">Sign in</button>
+
+                                    {errorMessage ? <ErrorBanner>{errorMessage}</ErrorBanner> : ''}
                                 </form>
 
                                 <p className={loginStyles.exist_account}>Don't have an account ?
