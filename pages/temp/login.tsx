@@ -1,6 +1,7 @@
-import * as api from "../../lib/api";
 import { useRouter } from 'next/router'
 import { useState } from "react";
+import { fetchApi, LoginError } from "../../lib/api";
+
 
 export default function Login() {
     const [errorMessage, setErrorMessage] = useState(null);
@@ -10,14 +11,22 @@ export default function Login() {
     async function login(e) {
         e.preventDefault()
 
-        const result = await api.fetch('/api/login', 'POST', {
+        const result = await fetchApi('/api/login', 'POST', {
             email: e.target.email.value,
             password: e.target.password.value,
         });
         if (result.success)
             router.push('/temp/account');
-        else
-            setErrorMessage('Impossible');
+        else {
+            let message: string;
+            switch (result.reason) {
+                case LoginError.InvalidLogins:
+                    message = "Email ou mot de passe invalid"; break;
+                default:
+                    message = "Une erreur est survenue"; break;
+            }
+            setErrorMessage(message);
+        }
     }
 
     return (

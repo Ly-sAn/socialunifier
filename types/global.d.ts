@@ -5,10 +5,14 @@ interface Json {
 }
 interface JsonArray extends Array<string | number | boolean | Date | Json | JsonArray> { }
 
-interface ApiResult extends Json {
-    success: boolean,
-    reason?: string,
+interface ErrorApiResult extends Json {
+    success: false,
+    reason: enum
 }
+interface SuccessApiResult extends Json {
+    success: true
+}
+type ApiResult = SuccessApiResult | ErrorApiResult
 
 type SessionHandler = ((req: SessionRequest, res: NextApiResponse) => any)
     | ((a: SessionHandlerArgs) => any)

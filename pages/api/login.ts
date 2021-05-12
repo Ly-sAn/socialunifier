@@ -3,6 +3,7 @@ import withSession from "../../lib/session";
 import { ApiResult } from "../../types/global";
 import bcrypt from 'bcrypt'
 import database from "../../lib/database";
+import { LoginError } from "../../lib/api";
 
 export default withSession(async (req, res: NextApiResponse<ApiResult>) => {
     try {
@@ -19,11 +20,11 @@ export default withSession(async (req, res: NextApiResponse<ApiResult>) => {
         }
         else {
             await req.session.destroy()
-            res.json({success: false})
+            res.json({success: false, reason: LoginError.InvalidLogins})
         }
 
     } catch (err){
         console.error(err);
-        res.json({ success: false })
+        res.json({ success: false, reason: LoginError.UnknownError })
     }
 })

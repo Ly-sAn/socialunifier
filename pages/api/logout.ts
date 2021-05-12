@@ -4,5 +4,5 @@ import { ApiResult } from "../../types/global";
 
 export default withSession(async (req, res: NextApiResponse<ApiResult>) => {
     await req.session.destroy();
-    res.json({success: false})
+    res.json({ success: true })
 })
