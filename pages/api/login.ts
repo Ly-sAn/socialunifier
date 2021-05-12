@@ -1,6 +1,6 @@
 import { NextApiResponse } from "next";
 import withSession from "../../lib/session";
-import { ApiResult } from "../../types";
+import { ApiResult } from "../../types/gobal";
 import bcrypt from 'bcrypt'
 import database from "../../lib/database";
 

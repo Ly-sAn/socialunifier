@@ -1,6 +1,6 @@
 import { GetServerSideProps } from "next"
 import withSession from "../../lib/session"
-import { SessionHandlerArgs as SessionHandlerParams } from "../../types"
+import { SessionHandlerArgs as SessionHandlerParams } from "../../types/gobal"
 
 export default function Account({user}) {
     return <div>Votre email est {user.email}</div>
@@ -9,9 +9,7 @@ export default function Account({user}) {
 export const getServerSideProps: GetServerSideProps = withSession(async ({req, res}: SessionHandlerParams) => {
     
     const user = req.session.get('user')
-    console.log(user);
-    
-
+   
     if (!user) {
         return {
             redirect: {

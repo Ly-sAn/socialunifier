@@ -1,5 +1,5 @@
 import { Handler, withIronSession } from "next-iron-session";
-import { SessionHandler } from "../types";
+import { SessionHandler } from "../types/gobal";
 
 export default function withSession(handler: SessionHandler) {
   return withIronSession(handler, {

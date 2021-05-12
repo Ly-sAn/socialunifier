@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt'
 import { NextApiResponse } from 'next'
 import database from "../../lib/database"
 import withSession from '../../lib/session';
-import { ApiResult } from '../../types';
+import { ApiResult } from '../../types/gobal';
 
 export default withSession(async (req, res: NextApiResponse<ApiResult>) => {
   
