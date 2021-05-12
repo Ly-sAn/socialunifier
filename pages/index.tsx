@@ -138,7 +138,7 @@ export default function Home() {
                 fill="none"
                 stroke="#3f3d56"
                 stroke-miterlimit="10"
-                stroke-width="4"
+                strokeWidth="4"
               />
               <path
                 transform="translate(-11.5 -150.75)"
@@ -216,16 +216,16 @@ export default function Home() {
                 fill="none"
                 stroke="#f2f2f2"
                 stroke-miterlimit="10"
-                stroke-width="2"
+                strokeWidth="2"
               />
               <path
                 transform="translate(-11.5 -150.75)"
                 d="M325.38,467.23l8.3,13,35.53,55.59a66.5,66.5,0,0,1-103.32-8.57l43.54-84.94.91,1.43"
                 fill="none"
                 stroke="#f2f2f2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
               />
               <path
                 transform="translate(-11.5 -150.75)"
@@ -233,7 +233,7 @@ export default function Home() {
                 fill="none"
                 stroke="#f2f2f2"
                 stroke-miterlimit="10"
-                stroke-width="2"
+                strokeWidth="2"
               />
               <path
                 transform="translate(-11.5 -150.75)"
@@ -241,7 +241,7 @@ export default function Home() {
                 fill="none"
                 stroke="#f2f2f2"
                 stroke-miterlimit="10"
-                stroke-width="2"
+                strokeWidth="2"
               />
               <path
                 transform="translate(-11.5 -150.75)"
@@ -249,7 +249,7 @@ export default function Home() {
                 fill="none"
                 stroke="#f2f2f2"
                 stroke-miterlimit="10"
-                stroke-width="2"
+                strokeWidth="2"
               />
               <path
                 transform="translate(-11.5 -150.75)"
@@ -257,7 +257,7 @@ export default function Home() {
                 fill="none"
                 stroke="#f2f2f2"
                 stroke-miterlimit="10"
-                stroke-width="2"
+                strokeWidth="2"
               />
               <path
                 transform="translate(-11.5 -150.75)"
@@ -528,7 +528,7 @@ export default function Home() {
                 opacity=".8"
                 stroke="#ff6347"
                 stroke-miterlimit="10"
-                stroke-width="2"
+                strokeWidth="2"
               />
               <path
                 transform="translate(-11.697 -13.011)"
@@ -537,7 +537,7 @@ export default function Home() {
                 opacity=".8"
                 stroke="#ff6347"
                 stroke-miterlimit="10"
-                stroke-width="2"
+                strokeWidth="2"
               />
               <circle cx="214.07" cy="310.65" r="11.968" fill="#ff6347" />
               <circle cx="322.2" cy="566.52" r="11.968" fill="#ff6347" />

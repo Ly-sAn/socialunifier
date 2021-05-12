@@ -17,7 +17,7 @@ const Navbar = () => {
 
     return (
         <>
-        <nav className='flex items-center flex-wrap p-3 '>
+        <nav className='flex items-center flex-wrap p-3 bg-gradient-to-r from-blue-300 to-green-400'>
           <Link href='/'>
             <a className='inline-flex items-center p-2 mr-4 '>
               <span className='text-3xl text-white font-bold uppercase tracking-wide'>
@@ -60,12 +60,12 @@ const Navbar = () => {
                   Tarifs
                 </a>
               </Link>
-              <Link href='/'>
+              <Link href='/forms/login'>
                 <a className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:text-blue-100'>
                   Connexion
                 </a>
               </Link>
-              <Link href='/'>
+              <Link href='/forms/register'>
               <button
                     className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-3 border border-gray-400 rounded shadow">
                     Inscription
