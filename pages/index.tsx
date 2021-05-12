@@ -577,14 +577,132 @@ export default function Home() {
 				</div>
     </section>
 
-    <section className="bg-gray-200 border-b py-6">
+    {/* <section className="bg-gray-200 border-b py-6">
       <div>
 caca
       </div>
 
+    </section> */}
+
+
+
+<section className="bg-gray-200 py-8">
+      <div className="container mx-auto px-2 pt-4 pb-12 text-gray-800">
+        <h2
+          className="w-full my-2 text-5xl font-black leading-tight text-center text-gray-800"
+        >
+          Tarifs
+        </h2>
+        <div className="w-full mb-4">
+          <div
+            className="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"
+          ></div>
+        </div>
+
+        <div
+          className="flex flex-col sm:flex-row justify-center pt-12 my-12 sm:my-4"
+        >
+          <div
+            className="flex flex-col w-5/6 lg:w-1/4 mx-auto lg:mx-0 rounded lg:rounded-l-lg bg-white mt-4"
+          >
+            <div
+              className="flex-1 bg-white text-gray-600 rounded-t rounded-b overflow-hidden shadow"
+            >
+              <div className="p-8 text-3xl font-bold text-center">
+                Gratuit
+              </div>
+              <ul className="w-full text-center text-sm">
+                <li className=" py-4">Accès uniquement à FB et Insta</li>
+                <li className=" py-4">3 posts par jour</li>
+                <li className=" py-4">Pas de support client</li>
+                <li className=" py-4">Accès retardé aux MAJ</li>
+              </ul>
+            </div>
+            <div
+              className="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6"
+            >
+              <div
+                className="w-full pt-6 text-3xl text-gray-600 font-bold text-center"
+              >
+                0€
+              </div>
+              <div className="flex items-center justify-center">
+                <button
+                  className="mx-auto lg:mx-0 hover:bg-green-400 bg-green-300 text-gray-800 font-bold rounded my-6 py-4 px-8 shadow-lg"
+                >
+                  Inscription
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div
+            className="flex flex-col w-5/6 lg:w-1/3 mx-auto lg:mx-0 rounded-lg bg-blue-200 mt-4 sm:-mt-6 gradient shadow hover:shadow-lg z-10"
+          >
+            <div className="flex-1 rounded-t rounded-b-none overflow-hidden">
+              <div className="w-full p-8 text-3xl font-bold text-center">Base</div>
+              <ul className="w-full text-center text-base font-bold">
+                <li className="py-4">Accès à tous réseaux sociaux</li>
+                <li className="py-4">20 posts par jour</li>
+                <li className="py-4">Support écrit par chat</li>
+                <li className="py-4">Accès aux dernières nouveautés</li>
+              </ul>
+            </div>
+            <div
+              className="flex-none mt-auto rounded-b rounded-t-none overflow-hidden p-6"
+            >
+              <div className="w-full pt-6 text-4xl font-bold text-center">
+                9€ <span className="text-base">/ mois</span>
+              </div>
+              <div className="flex items-center justify-center">
+                <button
+                  className="mx-auto lg:mx-0 hover:bg-green-400 bg-green-300 gradient2 text-gray-800 font-bold rounded my-6 py-4 px-8 shadow-lg"
+                >
+                  Inscription
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div
+            className="flex flex-col w-5/6 lg:w-1/4 mx-auto lg:mx-0 rounded lg:rounded-l-lg bg-white mt-4"
+          >
+            <div
+              className="flex-1 bg-white text-gray-600 rounded-t rounded-b overflow-hidden shadow"
+            >
+              <div className="p-8 text-3xl font-bold text-center ">
+                Pro
+              </div>
+              <ul className="w-full text-center text-sm">
+              <li className="py-4">Accès à tous réseaux sociaux</li>
+                <li className="py-4">100 posts par jour</li>
+                <li className="py-4">Support écrit et vocal 7/7j</li>
+                <li className="py-4">Accès aux dernières nouveautés</li>
+              </ul>
+            </div>
+            <div
+              className="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6"
+            >
+              <div
+                className="w-full pt-6 text-3xl text-gray-600 font-bold text-center"
+              >
+                19€ <span className="text-base">/ mois</span>
+              </div>
+              <div className="flex items-center justify-center">
+                <button
+                  className="mx-auto lg:mx-0 hover:bg-green-400 bg-green-300 text-gray-800 font-bold rounded my-6 py-4 px-8 shadow-lg"
+                >
+                  Inscription
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
+
     
-    <section className="bg-gradient-to-r from-blue-300 to-green-400  py-1">
+    <section className="bg-gradient-to-r to-blue-400 from-green-300  py-1">
       <div>
         <h5 className="text-center font-mono font-medium text-white">Mai 2021 / Coding Factory 👾</h5>
       </div>
