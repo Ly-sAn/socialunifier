@@ -1,5 +1,5 @@
 import sqlite3 from 'sqlite3';
-import { DbUser } from '../types/gobal';
+import { DbUser } from '../types/global';
 const sqlite = sqlite3.verbose();
 
 const db = new sqlite.Database('base.db');

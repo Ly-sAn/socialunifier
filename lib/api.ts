@@ -1,4 +1,4 @@
-import { ApiResult, Json } from "../types/gobal"
+import { ApiResult, Json } from "../types/global"
 
 export async function fetch(path: string, method: 'POST' | 'GET', data: Json): Promise<ApiResult> {
     const res = await global.fetch(path, {
