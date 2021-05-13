@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import styles from '../../styles/forms/Register.module.scss';
 import router from 'next/router';
-import { fetchApi, RegisterError } from '../../lib/api';
+import { ApiRoute, fetchApi, RegisterError } from '../../lib/api';
 import React from 'react';
 import ErrorBanner, { showError } from '../../components/error-banner';
 import Layout from '../../components/layout';
@@ -14,7 +14,7 @@ export default function Register() {
             return showError("Mots de passe différents")
         }
 
-        const result = await fetchApi('/api/register', 'POST', {
+        const result = await fetchApi(ApiRoute.Register, 'POST', {
             email: e.target.email.value,
             password: e.target.password.value,
             userName: e.target.userName.value,

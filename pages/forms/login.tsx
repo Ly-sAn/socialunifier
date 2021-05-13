@@ -1,6 +1,6 @@
 import loginStyles from "../../styles/forms/Login.module.scss";
 import Link from "next/link";
-import { fetchApi, LoginError } from "../../lib/api";
+import { ApiRoute, fetchApi, LoginError } from "../../lib/api";
 import router from "next/router";
 import ErrorBanner, { showError } from "../../components/error-banner";
 import Layout from "../../components/layout";
@@ -11,7 +11,7 @@ export default function Login() {
     async function login(e) {
         e.preventDefault()
 
-        const result = await fetchApi('/api/login', 'POST', {
+        const result = await fetchApi(ApiRoute.Login, 'POST', {
             email: e.target.email.value,
             password: e.target.password.value,
         });

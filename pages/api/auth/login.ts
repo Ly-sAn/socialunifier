@@ -1,9 +1,9 @@
 import { NextApiResponse } from "next";
-import withSession from "../../lib/session";
-import { ApiResult } from "../../types/global";
+import withSession from "../../../lib/session";
+import { ApiResult } from "../../../types/global";
 import bcrypt from 'bcrypt'
-import database from "../../lib/database";
-import { LoginError } from "../../lib/api";
+import database from "../../../lib/database";
+import { LoginError } from "../../../lib/api";
 
 export default withSession(async (req, res: NextApiResponse<ApiResult>) => {
     try {
@@ -11,7 +11,7 @@ export default withSession(async (req, res: NextApiResponse<ApiResult>) => {
        
         const user = await database.getAccount({ email })
         
-        const isCorrect = await bcrypt.compare(password, user?.PasswordHash)
+        const isCorrect = user && await bcrypt.compare(password, user.PasswordHash)
 
         if (isCorrect) {
             req.session.set("user", { email })

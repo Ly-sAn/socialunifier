@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt'
 import { NextApiResponse } from 'next'
-import { RegisterError } from '../../lib/api';
-import database from "../../lib/database"
-import withSession from '../../lib/session';
-import { ApiResult } from '../../types/global';
+import { RegisterError } from '../../../lib/api';
+import database from "../../../lib/database"
+import withSession from '../../../lib/session';
+import { ApiResult } from '../../../types/global';
 
 const emailRegex =  /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
