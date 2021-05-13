@@ -1,6 +1,6 @@
-import { Database, open } from 'sqlite';
+import { open } from 'sqlite';
 import sqlite3 from 'sqlite3';
-import { DbUser } from '../types/global';
+import { DbUser, SocialNetwork } from '../types/global';
 import { modelDatabase } from './databaseModeler';
 
 sqlite3.verbose()
@@ -42,11 +42,53 @@ _db.then(opened => {
                         notNull: true,
                     },
                 ]
-            },            
+            },
+            {
+                name: 'Token',
+                columns: [
+                    {
+                        name: 'UserId',
+                        type: 'INTEGER',
+                        notNull: true,
+                        primary: true,
+                        unique: true,
+                        foreignKey: {
+                            table: 'User',
+                            column: 'Id'
+                        },
+                    },
+                    {
+                        name: 'Network',
+                        type: 'TEXT',
+                        notNull: true,
+                        primary: true,
+                    },
+                    {
+                        name: 'Code',
+                        type: 'TEXT',
+                        notNull: true,
+                    },
+                    {
+                        name: 'Expire',
+                        type: 'INTEGER'
+                    },
+                    {
+                        name: 'RefreshToken',
+                        type: 'TEXT'
+                    }
+                ]
+            },
         ]
     }, opened)
 })
 
+type saveCredentialsParams = {
+    socialNetwork: SocialNetwork,
+    userId: number,
+    token: string,
+    expire?: Date,
+    refreshToken?: string,
+}
 
 class database {
 
@@ -62,9 +104,16 @@ class database {
         return await db.get('SELECT * FROM User WHERE Id = $id', { $id: id });
     }
 
-    async getAccountByEmail({ email }): Promise<DbUser | undefined> {
+    async getAccountByEmail(email: string): Promise<DbUser | undefined> {
         const db = await _db;
         return await db.get('SELECT * FROM User WHERE Email = $email', { $email: email });
+    }
+    
+    
+    async saveCredentials({ socialNetwork, userId, token, expire, refreshToken }: saveCredentialsParams): Promise<void> {
+        const db = await _db;
+        await db.run('INSERT INTO Token (UserId, Network, Code, Expire, RefreshToken) VALUES ($userId, $network, $code, $expire, $refreshToken)',
+            { $userId: userId, $network: socialNetwork, $code: token, $expire: expire, $refreshToken: refreshToken });
     }
 }
 

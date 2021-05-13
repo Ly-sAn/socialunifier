@@ -4,6 +4,8 @@ interface Json {
     [key: string]: string|number|boolean|Json|Array<Json>;
 }
 
+type SocialNetwork = 'Reddit'
+
 interface ErrorApiResult extends Json {
     success: false,
     reason: enum

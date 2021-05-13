@@ -9,7 +9,7 @@ export default withSession(async (req, res: NextApiResponse<ApiResult>) => {
     try {
         const { email, password } = await req.body;
        
-        const user = await database.getAccount({ email })
+        const user = await database.getAccountByEmail(email)
         
         const isCorrect = user && await bcrypt.compare(password, user.PasswordHash)
 
