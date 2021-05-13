@@ -1,20 +1,13 @@
 import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.scss'
-import Navbar from '../components/navbar'
+import Layout from '../components/layout'
 
 export default function Home() {
   return (
-    <div>
-      <Head>
-        <title>Social Unifier</title>
-        <link rel='icon' href='/favicon.ico' />
-      </Head>
+    <Layout>
       <div className='bg-gradient-to-r from-blue-300 to-green-400 border-b'>
-        <Navbar />
 
         <div className="container mx-auto">
-          <div className="text-center px-3 lg:px-0">
+          <div className="text-center px-3 lg:px-0 p-0.5">
             <h1
               className="my-4 text-2xl md:text-3xl lg:text-5xl font-black leading-tight"
             >
@@ -700,19 +693,7 @@ caca
         </div>
       </div>
     </section>
-
     
-    <section className="bg-gradient-to-r to-blue-400 from-green-300  py-1">
-      <div>
-        <h5 className="text-center font-mono font-medium text-white">Mai 2021 / Coding Factory 👾</h5>
-      </div>
-
-    </section>
-
-    
-    
-
-
-    </div>
+    </Layout>
   )
 }

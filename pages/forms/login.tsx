@@ -1,9 +1,9 @@
 import loginStyles from "../../styles/forms/Login.module.scss";
 import Link from "next/link";
-import Navbar from '../../components/navbar';
 import { fetchApi, LoginError } from "../../lib/api";
 import router from "next/router";
 import ErrorBanner, { showError } from "../../components/error-banner";
+import Layout from "../../components/layout";
 
 
 export default function Login() {
@@ -31,8 +31,7 @@ export default function Login() {
     }
 
     return (
-        <>
-            <Navbar />
+        <Layout title="Connexion">            
             <section className={loginStyles.form_container}>
                 <div className={loginStyles.container}>
                     <div className={loginStyles.moved_element}>
@@ -79,6 +78,6 @@ export default function Login() {
                     </div>
                 </div>
             </section>
-        </>
+        </Layout>
     )
 }

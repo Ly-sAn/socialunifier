@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import styles from '../../styles/forms/Register.module.scss';
-import Navbar from '../../components/navbar';
 import router from 'next/router';
 import { fetchApi, RegisterError } from '../../lib/api';
 import React from 'react';
 import ErrorBanner, { showError } from '../../components/error-banner';
+import Layout from '../../components/layout';
 
 export default function Register() {
     async function register(e) {
@@ -36,8 +36,7 @@ export default function Register() {
     }
 
     return (
-        <>
-            <Navbar />
+        <Layout title="Inscription">
             <section className={styles.form_container}>
                 <div className={styles.container}>
                     <div className={styles.moved_element}>
@@ -87,6 +86,6 @@ export default function Register() {
                     </div>
                 </div>
             </section>
-        </>
+        </Layout>
     )
 }
