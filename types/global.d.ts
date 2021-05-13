@@ -30,13 +30,6 @@ interface SessionRequest extends NextApiRequest {
     }
 }
 
-type DbUser = {
-    Id: number,
-    Email: string,
-    UserName: string
-    PasswordHash: string
-}
-
 interface UserNotLoggedIn  {
     isLoggedIn: false
 }

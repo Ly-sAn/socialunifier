@@ -15,6 +15,7 @@ export enum ApiRoute {
     Logout = '/api/auth/logout',
     User = '/api/auth/user',
     AuthorizeReddit = "/api/reddit/authorize",
+    PostReddit = '/api/reddit/post',
 }
 
 export enum RegisterError {
@@ -26,4 +27,10 @@ export enum RegisterError {
 export enum LoginError {
     UnknownError,
     InvalidLogins,
+}
+
+export enum PostError {
+    UnknownError,
+    NotLoggedIn,
+    NoCredentials,
 }

@@ -1,7 +1,8 @@
 import { open } from 'sqlite';
 import sqlite3 from 'sqlite3';
-import { DbUser, SocialNetwork } from '../types/global';
+import { SocialNetwork } from '../types/global';
 import { modelDatabase } from './databaseModeler';
+import type { DbToken, DbUser } from '../types/db';
 
 sqlite3.verbose()
 
@@ -114,6 +115,11 @@ class database {
         const db = await _db;
         await db.run('INSERT INTO Token (UserId, Network, Code, Expire, RefreshToken) VALUES ($userId, $network, $code, $expire, $refreshToken)',
             { $userId: userId, $network: socialNetwork, $code: token, $expire: expire, $refreshToken: refreshToken });
+    }
+    
+    async getToken(userId: number, socialNetwork: SocialNetwork): Promise<DbToken | undefined> {
+        const db = await _db;
+        return await db.get('SELECT * FROM Token WHERE UserId = $userId AND Network = $network', { $userId: userId, $network: socialNetwork });
     }
 }
 
