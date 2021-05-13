@@ -14,7 +14,7 @@ export default withSession(async (req, res: NextApiResponse<ApiResult>) => {
         const isCorrect = user && await bcrypt.compare(password, user.PasswordHash)
 
         if (isCorrect) {
-            req.session.set("user", { email })
+            req.session.set("user", user.Id)
             await req.session.save()
             res.json({success: true})
         }

@@ -1,66 +1,71 @@
+import { Database, open } from 'sqlite';
 import sqlite3 from 'sqlite3';
 import { DbUser } from '../types/global';
 import { modelDatabase } from './databaseModeler';
-const sqlite = sqlite3.verbose();
 
-const db = new sqlite.Database('base.db');
-
-modelDatabase({
-    tables: [
-        {
-            name: 'User',
-            columns: [
-                {
-                    name: 'Id',
-                    type: 'INTEGER',
-                    notNull: true,
-                    unique: true,
-                    primary: true,
-                    autoIncrement: true,
-                },
-                {
-                    name: 'Email',
-                    type: 'TEXT',
-                    notNull: true,
-                    unique: true,
-                },
-                {
-                    name: 'UserName',
-                    type: 'TEXT',
-                    notNull: true,
-                },
-                {
-                    name: 'PasswordHash',
-                    type: 'TEXT',
-                    notNull: true,
-                },
-            ]
-        },
-    ]
-}, db)
+sqlite3.verbose()
 
 
-export default class database {
+const _db = open({
+    filename: 'base.db',
+    driver: sqlite3.Database
+})
 
-    static register({ email, pwdHash, userName }) {
-        return new Promise<void>((resolve, reject) => {
-            db.run('INSERT INTO User (Email, PasswordHash, UserName) VALUES ($email, $pwd, $userName)', { $email: email, $pwd: pwdHash, $userName: userName }, err => {
-                if (err)
-                    reject(err);
-                else
-                    resolve();
-            })
-        })
+_db.then(opened => {
+    modelDatabase({
+        tables: [
+            {
+                name: 'User',
+                columns: [
+                    {
+                        name: 'Id',
+                        type: 'INTEGER',
+                        notNull: true,
+                        unique: true,
+                        primary: true,
+                        autoIncrement: true,
+                    },
+                    {
+                        name: 'Email',
+                        type: 'TEXT',
+                        notNull: true,
+                        unique: true,
+                    },
+                    {
+                        name: 'UserName',
+                        type: 'TEXT',
+                        notNull: true,
+                    },
+                    {
+                        name: 'PasswordHash',
+                        type: 'TEXT',
+                        notNull: true,
+                    },
+                ]
+            },            
+        ]
+    }, opened)
+})
+
+
+class database {
+
+    async register({ email, pwdHash, userName }): Promise<number> {
+        const db = await _db;
+        await db.run('INSERT INTO User (Email, PasswordHash, UserName) VALUES ($email, $pwd, $userName);', { $email: email, $pwd: pwdHash, $userName: userName });
+        const newUser = await db.get('SELECT Id FROM User WHERE Email = $email', { $email: email });
+        return newUser.Id;
     }
 
-    static getAccount({ email }) {
-        return new Promise<DbUser | undefined>((resolve, reject) => {
-            db.get('SELECT * FROM User WHERE Email = $email', { $email: email }, (err, row) => {
-                if (err)
-                    reject(err)
-                else
-                    resolve(row)
-            })
-        })
+    async getAccount(id: number): Promise<DbUser | undefined> {
+        const db = await _db;
+        return await db.get('SELECT * FROM User WHERE Id = $id', { $id: id });
+    }
+
+    async getAccountByEmail({ email }): Promise<DbUser | undefined> {
+        const db = await _db;
+        return await db.get('SELECT * FROM User WHERE Email = $email', { $email: email });
     }
 }
+
+export default new database()

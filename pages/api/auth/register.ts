@@ -16,9 +16,9 @@ export default withSession(async (req, res: NextApiResponse<ApiResult>) => {
       return res.json({ success: false, reason: RegisterError.InvalidEmail})
 
     const hash = await bcrypt.hash(password, 3);
-    await database.register({ email, pwdHash: hash, userName });
+    const id = await database.register({ email, pwdHash: hash, userName });
 
-    req.session.set("user", { email });
+    req.session.set("user", id);
     await req.session.save();
 
     res.json({ success: true });

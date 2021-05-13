@@ -1,3 +1,4 @@
+import { Database } from 'sqlite';
 import type sqlite3 from 'sqlite3'
 
 type DatabaseColumn = {
@@ -17,7 +18,7 @@ type ForeignKey = {
     column: string
 }
 
-type Database = {
+type DatabaseModel = {
     tables: Array<{
         name: string,
         columns: Array<DatabaseColumn>,
@@ -45,9 +46,9 @@ function dbAllAsync(db: sqlite3.Database, sql: string) {
     })
 }
 
-export async function modelDatabase(model: Database, db: sqlite3.Database) {
+export async function modelDatabase(model: DatabaseModel, db: Database) {
 
-    db.serialize();
+    db.getDatabaseInstance().serialize();
     for (const table of model.tables) {
 
         const primaryColumns = table.columns.filter(c => c.primary);
@@ -62,9 +63,10 @@ export async function modelDatabase(model: Database, db: sqlite3.Database) {
                     ${[].concat(columnsDeclarations, [primaryDeclaration], foreignKeyDeclarations).join(',\n')}
                 );
             `;
-        db.run(statement);
+        await db.run(statement);
 
-        const existingColumns = await dbAllAsync(db, `PRAGMA table_info(${table.name})`);
+        const existingColumns = await db.all(`PRAGMA table_info(${table.name})`);
+        
         for (const column of table.columns) {
             if (!existingColumns.some(c => c.name === column.name)) {
                 if (column.unique) {
@@ -75,10 +77,10 @@ export async function modelDatabase(model: Database, db: sqlite3.Database) {
                     ALTER TABLE "${table.name}"
                         ADD ${columnTemplate(column)}
                 `
-                db.run(statement)
+                await db.run(statement)
             }
         }
 
     }
-    db.parallelize();
+    db.getDatabaseInstance().parallelize();
 }

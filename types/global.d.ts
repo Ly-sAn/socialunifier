@@ -1,9 +1,8 @@
-import  { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next'
 
 interface Json {
-    [x: string]: string|number|boolean|Date|Json|JsonArray;
+    [key: string]: string|number|boolean|Json|Array<Json>;
 }
-interface JsonArray extends Array<string | number | boolean | Date | Json | JsonArray> { }
 
 interface ErrorApiResult extends Json {
     success: false,
@@ -30,7 +29,19 @@ interface SessionRequest extends NextApiRequest {
 }
 
 type DbUser = {
+    Id: number,
     Email: string,
     UserName: string
     PasswordHash: string
 }
+
+interface UserNotLoggedIn  {
+    isLoggedIn: false
+}
+interface UserLoggedIn {
+    isLoggedIn: true,
+    email: string,
+    userName: string,
+}
+
+type User = UserNotLoggedIn | UserLoggedIn
