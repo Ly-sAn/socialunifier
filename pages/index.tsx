@@ -2,8 +2,38 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.scss'
 import Navbar from '../components/navbar'
+import { useState } from 'react'
 
 export default function Home() {
+
+  const [email, setEmail] = useState('')
+  const [submitted, setSubmitted] = useState(false)
+
+
+  const handleSubmit = (e) => { 
+    e.preventDefault()
+    console.log('Sending')
+  let data = {
+      email
+    }
+  fetch('/api/contact', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }).then((res) => {
+      console.log('Response received')
+      if (res.status === 200) {
+        console.log('Response succeeded!')
+        setSubmitted(true)
+        setEmail('')
+      }
+    });
+  };
+
+
   return (
     <div>
       <Head>
@@ -567,10 +597,12 @@ export default function Home() {
 					<h2 className="font-bold break-normal text-2xl md:text-4xl">Souscrire à la newsletter</h2>
 					<h3 className="font-bold break-normal text-gray-600 text-base md:text-xl">Tenez-vous au courant des dernières nouveautés</h3>
 					<div className="w-full text-center pt-4">
-						<form action="#">
+						<form>
 							<div className="max-w-xl mx-auto p-1 pr-0 flex flex-wrap items-center">
-								<input type="email" placeholder="votre.email@exemple.fr" className="flex-1 appearance-none rounded shadow p-3 text-gray-600 mr-2 focus:outline-none"></input>
-								<button type="submit" className="flex-1  md:mt-0 block md:inline-block appearance-none bg-blue-400 text-white text-base font-semibold tracking-wider uppercase py-4 rounded shadow hover:bg-blue-500">Souscrire</button>
+
+                <input onChange={(e)=>{setEmail(e.target.value)}} type="email" placeholder="votre.email@exemple.fr" className="flex-1 appearance-none rounded shadow p-3 text-gray-600 mr-2 focus:outline-none"></input>
+								<button onClick={(e)=>{handleSubmit(e)}} type="submit" name='email' className="flex-1  md:mt-0 block md:inline-block appearance-none bg-blue-400 text-white text-base font-semibold tracking-wider uppercase py-4 rounded shadow hover:bg-blue-500">Souscrire</button>
+
 							</div>
 						</form>
 					</div>
