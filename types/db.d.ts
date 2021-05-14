@@ -1,4 +1,4 @@
-import { SocialNetwork } from "./global"
+import type { Json, SocialNetwork } from "./global"
 
 type DbUser = {
     Id: number,
@@ -13,4 +13,9 @@ type DbToken = {
     Code: string,
     Expire?: Date,
     RefreshToken?: string,
+}
+
+type DbAction = {
+    code: string,
+    json: Json,
 }

@@ -16,6 +16,7 @@ export enum ApiRoute {
     User = '/api/auth/user',
     AuthorizeReddit = "/api/reddit/authorize",
     PostReddit = '/api/reddit/post',
+    Post = '/api/post',
 }
 
 export enum RegisterError {

@@ -2,7 +2,6 @@ import currentActions from "../../../lib/currentActions";
 import database from "../../../lib/database";
 import withSession from "../../../lib/session"
 
-
 type Params = {
     code: string,
     state: string,
@@ -42,7 +41,6 @@ export default withSession(async (req, res) => {
             Authorization: 'Basic ' + Buffer.from(redditId + ':' + redditSecret).toString('base64'),
             'Content-Type': 'application/x-www-form-urlencoded'
         },
-
     })
     const json = await response.json();
 
@@ -51,7 +49,7 @@ export default withSession(async (req, res) => {
         return res.redirect('/error');
     }
     
-    await database.saveCredentials({ socialNetwork: "Reddit", userId, token: json.access_token, expire: new Date(Date.now() + +json.expires_in), refreshToken: json.refresh_token })
+    await database.saveToken({ socialNetwork: "Reddit", userId, token: json.access_token, expire: new Date(Date.now() + +json.expires_in), refreshToken: json.refresh_token })
 
     res.redirect('/temp/account')
 })

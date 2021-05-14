@@ -1,9 +1,9 @@
 import Layout from "../../components/layout";
 import { ApiRoute } from "../../lib/api";
-import userUser from "../../lib/useUser";
+import useUser from "../../lib/useUser";
 
 export default function Authorize() {
-    userUser();
+    useUser();
 
     return (
         <Layout>

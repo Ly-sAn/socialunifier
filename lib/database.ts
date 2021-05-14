@@ -1,8 +1,8 @@
 import { open } from 'sqlite';
 import sqlite3 from 'sqlite3';
-import { SocialNetwork } from '../types/global';
 import { modelDatabase } from './databaseModeler';
-import type { DbToken, DbUser } from '../types/db';
+import type { Json, SocialNetwork } from '../types/global';
+import type { DbUser, DbToken, DbAction } from '../types/db';
 
 sqlite3.verbose()
 
@@ -79,6 +79,24 @@ _db.then(opened => {
                     }
                 ]
             },
+            {
+                name: 'Action',
+                columns: [
+                    {
+                        name: 'Code',
+                        primary: true,
+                        type: 'TEXT',
+                        unique: true,
+                        notNull: true,
+                    },
+                    {
+                        name: 'Json',
+                        notNull: true,
+                        type: 'TEXT',
+                        default: '{}',
+                    }
+                ]
+            },
         ]
     }, opened)
 })
@@ -91,36 +109,55 @@ type saveCredentialsParams = {
     refreshToken?: string,
 }
 
-class database {
+export default class database {
 
-    async register({ email, pwdHash, userName }): Promise<number> {
+    static async register({ email, pwdHash, userName }): Promise<number> {
         const db = await _db;
         await db.run('INSERT INTO User (Email, PasswordHash, UserName) VALUES ($email, $pwd, $userName);', { $email: email, $pwd: pwdHash, $userName: userName });
         const newUser = await db.get('SELECT Id FROM User WHERE Email = $email', { $email: email });
         return newUser.Id;
     }
 
-    async getAccount(id: number): Promise<DbUser | undefined> {
+    static async getAccount(id: number): Promise<DbUser | undefined> {
         const db = await _db;
         return await db.get('SELECT * FROM User WHERE Id = $id', { $id: id });
     }
 
-    async getAccountByEmail(email: string): Promise<DbUser | undefined> {
+    static async getAccountByEmail(email: string): Promise<DbUser | undefined> {
         const db = await _db;
         return await db.get('SELECT * FROM User WHERE Email = $email', { $email: email });
     }
-    
-    
-    async saveCredentials({ socialNetwork, userId, token, expire, refreshToken }: saveCredentialsParams): Promise<void> {
+
+
+    static async saveToken({ socialNetwork, userId, token, expire, refreshToken }: saveCredentialsParams): Promise<void> {
         const db = await _db;
-        await db.run('INSERT INTO Token (UserId, Network, Code, Expire, RefreshToken) VALUES ($userId, $network, $code, $expire, $refreshToken)',
+        await db.run('INSERT OR REPLACE INTO Token (UserId, Network, Code, Expire, RefreshToken) VALUES ($userId, $network, $code, $expire, $refreshToken)',
             { $userId: userId, $network: socialNetwork, $code: token, $expire: expire, $refreshToken: refreshToken });
     }
-    
-    async getToken(userId: number, socialNetwork: SocialNetwork): Promise<DbToken | undefined> {
+
+    static async getToken(userId: number, socialNetwork: SocialNetwork): Promise<DbToken | undefined> {
         const db = await _db;
         return await db.get('SELECT * FROM Token WHERE UserId = $userId AND Network = $network', { $userId: userId, $network: socialNetwork });
     }
+
+    static async getAllTokensForUser(userId: number): Promise<Array<DbToken>> {
+        const db = await _db;
+        return await db.all('SELECT * FROM Token WHERE UserId = $userId', { $userId: userId });
+    }
+
+    static async saveAction(code: string, json: Json): Promise<void> {
+        const db = await _db;
+        await db.run('INSERT INTO Action (Code, Json) VALUES ($code, $json)', { $code: code, $json: JSON.stringify(json) });
+    }
+
+    static async retrieveAction(code: string): Promise<DbAction | undefined> {
+        const db = await _db;
+        const result = await db.get('SELECT * FROM Action WHERE Code = $code', { $code: code });
+        await db.run('DELETE FROM Action WHERE Code = $code', { $code: code });
+        return result ? {
+            code: result.Code,
+            json: JSON.parse(result.Json)
+        } : undefined;
+    }
 }
 
-export default new database()

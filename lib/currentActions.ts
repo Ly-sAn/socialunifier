@@ -1,21 +1,14 @@
-import cache from 'memory-cache'
 import type { SocialNetwork } from "../types/global";
-
-console.log("hi");
-cache.debug(true)
+import database from "./database";
 
 function save(state: string, userId: number, network: SocialNetwork) {
-    cache.put(state, { userId, network }, 3600);
-    console.log("saving", cache.keys());
-    
+    return database.saveAction(state, { userId, network });
 }
 
-function retrieve(state: string, userId: number, network: SocialNetwork) {
-    console.log("retrieve", cache.keys());
-    const value = cache.get(state);
-    cache.del(state);
+async function retrieve(state: string, userId: number, network: SocialNetwork) {
+    const value = await database.retrieveAction(state);
     
-    return value && objectsEquals(value, { userId, network });    
+    return value && objectsEquals(value, { userId, network });
 }
 
 function objectsEquals(object1: any, object2: any) {

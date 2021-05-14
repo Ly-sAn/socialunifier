@@ -4,7 +4,7 @@ import useSwr from 'swr'
 import { ApiRoute } from './api'
 import type { User } from '../types/global';
 
-export default function userUser(redirect = true): User {
+export default function useUser(redirect = true): User {
     const { data: user, error } = useSwr(ApiRoute.User);
     const router = useRouter()
 

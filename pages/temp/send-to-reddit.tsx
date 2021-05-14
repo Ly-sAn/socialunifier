@@ -1,11 +1,11 @@
 import { useRouter } from "next/router";
-import ErrorBanner from "../../components/error-banner";
+import ErrorBanner, { showError } from "../../components/error-banner";
 import Layout from "../../components/layout";
 import { ApiRoute, fetchApi, PostError } from "../../lib/api";
-import userUser from "../../lib/useUser";
+import useUser from "../../lib/useUser";
 
 export default function SendToReddit() {
-    userUser();
+    useUser();
     const router = useRouter();
 
     async function handleSubmit(e) {
@@ -26,10 +26,9 @@ export default function SendToReddit() {
                 default:
                     message = "Une erreur est survenue"; break;
             }
+            showError(message)
         }
     }
-
-    userUser()
 
     return (
         <Layout>

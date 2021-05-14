@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-interface Json {
-    [key: string]: string|number|boolean|Json|Array<Json>;
+type Json = string | number | boolean | Json | Json[] | {
+    [key: string]: Json;
 }
 
 type SocialNetwork = 'Reddit'
@@ -18,7 +18,7 @@ type ApiResult = SuccessApiResult | ErrorApiResult
 type SessionHandler = ((req: SessionRequest, res: NextApiResponse) => any)
     | ((a: SessionHandlerArgs) => any)
 
-type SessionHandlerArgs = {req: SessionRequest, res: NextApiResponse}
+type SessionHandlerArgs = { req: SessionRequest, res: NextApiResponse }
 
 interface SessionRequest extends NextApiRequest {
     session: {
@@ -30,13 +30,14 @@ interface SessionRequest extends NextApiRequest {
     }
 }
 
-interface UserNotLoggedIn  {
+interface UserNotLoggedIn {
     isLoggedIn: false
 }
 interface UserLoggedIn {
     isLoggedIn: true,
     email: string,
     userName: string,
+    networks: Array<SocialNetwork>,
 }
 
 type User = UserNotLoggedIn | UserLoggedIn
