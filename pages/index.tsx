@@ -20,7 +20,6 @@ export default function Home() {
     e.preventDefault();
 
     console.log(email);
-    
   
     if (validate(email)) {
       setemailMessage('Mail envoyé !');
@@ -613,7 +612,7 @@ export default function Home() {
                 <input type="email" name='email' placeholder="votre.email@exemple.fr" className="flex-1 appearance-none rounded shadow p-3 text-gray-600 mr-2 focus:outline-none"></input>
 								<button type="submit"  className="flex-1  md:mt-0 block md:inline-block appearance-none bg-blue-400 text-white text-base font-semibold tracking-wider uppercase py-4 rounded shadow hover:bg-blue-500">Souscrire</button>
 							</div>
-              <span className="text-red-400	font-black">{emailMessage}</span>
+              <span className="text-pink-400 font-black">{emailMessage}</span>
 						</form>
 					</div>
 				</div>
