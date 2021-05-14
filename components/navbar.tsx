@@ -1,12 +1,6 @@
 import Link from 'next/link';
 import { useState } from 'react';
 
-// Before
-// export default () => <div />;
-
-// After
-// const Named = () => <div />;
-// export default Named;
 const Navbar = () => {
 
     const [active, setActive] = useState(false);
