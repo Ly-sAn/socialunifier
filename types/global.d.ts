@@ -1,9 +1,10 @@
-import  { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next'
 
-interface Json {
-    [x: string]: string|number|boolean|Date|Json|JsonArray;
+type Json = string | number | boolean | Json | Json[] | {
+    [key: string]: Json;
 }
-interface JsonArray extends Array<string | number | boolean | Date | Json | JsonArray> { }
+
+type SocialNetwork = 'Reddit'
 
 interface ErrorApiResult extends Json {
     success: false,
@@ -17,7 +18,7 @@ type ApiResult = SuccessApiResult | ErrorApiResult
 type SessionHandler = ((req: SessionRequest, res: NextApiResponse) => any)
     | ((a: SessionHandlerArgs) => any)
 
-type SessionHandlerArgs = {req: SessionRequest, res: NextApiResponse}
+type SessionHandlerArgs = { req: SessionRequest, res: NextApiResponse }
 
 interface SessionRequest extends NextApiRequest {
     session: {
@@ -29,8 +30,14 @@ interface SessionRequest extends NextApiRequest {
     }
 }
 
-type DbUser = {
-    Email: string,
-    UserName: string
-    PasswordHash: string
+interface UserNotLoggedIn {
+    isLoggedIn: false
 }
+interface UserLoggedIn {
+    isLoggedIn: true,
+    email: string,
+    userName: string,
+    networks: Array<SocialNetwork>,
+}
+
+type User = UserNotLoggedIn | UserLoggedIn

@@ -1,66 +1,163 @@
+import { open } from 'sqlite';
 import sqlite3 from 'sqlite3';
-import { DbUser } from '../types/global';
 import { modelDatabase } from './databaseModeler';
-const sqlite = sqlite3.verbose();
+import type { Json, SocialNetwork } from '../types/global';
+import type { DbUser, DbToken, DbAction } from '../types/db';
 
-const db = new sqlite.Database('base.db');
+sqlite3.verbose()
 
-modelDatabase({
-    tables: [
-        {
-            name: 'User',
-            columns: [
-                {
-                    name: 'Id',
-                    type: 'INTEGER',
-                    notNull: true,
-                    unique: true,
-                    primary: true,
-                    autoIncrement: true,
-                },
-                {
-                    name: 'Email',
-                    type: 'TEXT',
-                    notNull: true,
-                    unique: true,
-                },
-                {
-                    name: 'UserName',
-                    type: 'TEXT',
-                    notNull: true,
-                },
-                {
-                    name: 'PasswordHash',
-                    type: 'TEXT',
-                    notNull: true,
-                },
-            ]
-        },
-    ]
-}, db)
 
+const _db = open({
+    filename: 'base.db',
+    driver: sqlite3.Database
+})
+
+_db.then(opened => {
+    modelDatabase({
+        tables: [
+            {
+                name: 'User',
+                columns: [
+                    {
+                        name: 'Id',
+                        type: 'INTEGER',
+                        notNull: true,
+                        unique: true,
+                        primary: true,
+                        autoIncrement: true,
+                    },
+                    {
+                        name: 'Email',
+                        type: 'TEXT',
+                        notNull: true,
+                        unique: true,
+                    },
+                    {
+                        name: 'UserName',
+                        type: 'TEXT',
+                        notNull: true,
+                    },
+                    {
+                        name: 'PasswordHash',
+                        type: 'TEXT',
+                        notNull: true,
+                    },
+                ]
+            },
+            {
+                name: 'Token',
+                columns: [
+                    {
+                        name: 'UserId',
+                        type: 'INTEGER',
+                        notNull: true,
+                        primary: true,
+                        unique: true,
+                        foreignKey: {
+                            table: 'User',
+                            column: 'Id'
+                        },
+                    },
+                    {
+                        name: 'Network',
+                        type: 'TEXT',
+                        notNull: true,
+                        primary: true,
+                    },
+                    {
+                        name: 'Code',
+                        type: 'TEXT',
+                        notNull: true,
+                    },
+                    {
+                        name: 'Expire',
+                        type: 'INTEGER'
+                    },
+                    {
+                        name: 'RefreshToken',
+                        type: 'TEXT'
+                    }
+                ]
+            },
+            {
+                name: 'Action',
+                columns: [
+                    {
+                        name: 'Code',
+                        primary: true,
+                        type: 'TEXT',
+                        unique: true,
+                        notNull: true,
+                    },
+                    {
+                        name: 'Json',
+                        notNull: true,
+                        type: 'TEXT',
+                        default: '{}',
+                    }
+                ]
+            },
+        ]
+    }, opened)
+})
+
+type saveCredentialsParams = {
+    socialNetwork: SocialNetwork,
+    userId: number,
+    token: string,
+    expire?: Date,
+    refreshToken?: string,
+}
 
 export default class database {
 
-    static register({ email, pwdHash, userName }) {
-        return new Promise<void>((resolve, reject) => {
-            db.run('INSERT INTO User (Email, PasswordHash, UserName) VALUES ($email, $pwd, $userName)', { $email: email, $pwd: pwdHash, $userName: userName }, err => {
-                if (err)
-                    reject(err);
-                else
-                    resolve();
-            })
-        })
+    static async register({ email, pwdHash, userName }): Promise<number> {
+        const db = await _db;
+        await db.run('INSERT INTO User (Email, PasswordHash, UserName) VALUES ($email, $pwd, $userName);', { $email: email, $pwd: pwdHash, $userName: userName });
+        const newUser = await db.get('SELECT Id FROM User WHERE Email = $email', { $email: email });
+        return newUser.Id;
     }
 
-    static getAccount({ email }) {
-        return new Promise<DbUser | undefined>((resolve, reject) => {
-            db.get('SELECT * FROM User WHERE Email = $email', { $email: email }, (err, row) => {
-                if (err)
-                    reject(err)
-                else
-                    resolve(row)
-            })
-        })
+    static async getAccount(id: number): Promise<DbUser | undefined> {
+        const db = await _db;
+        return await db.get('SELECT * FROM User WHERE Id = $id', { $id: id });
+    }
+
+    static async getAccountByEmail(email: string): Promise<DbUser | undefined> {
+        const db = await _db;
+        return await db.get('SELECT * FROM User WHERE Email = $email', { $email: email });
+    }
+
+
+    static async saveToken({ socialNetwork, userId, token, expire, refreshToken }: saveCredentialsParams): Promise<void> {
+        const db = await _db;
+        await db.run('INSERT OR REPLACE INTO Token (UserId, Network, Code, Expire, RefreshToken) VALUES ($userId, $network, $code, $expire, $refreshToken)',
+            { $userId: userId, $network: socialNetwork, $code: token, $expire: expire, $refreshToken: refreshToken });
+    }
+
+    static async getToken(userId: number, socialNetwork: SocialNetwork): Promise<DbToken | undefined> {
+        const db = await _db;
+        return await db.get('SELECT * FROM Token WHERE UserId = $userId AND Network = $network', { $userId: userId, $network: socialNetwork });
+    }
+
+    static async getAllTokensForUser(userId: number): Promise<Array<DbToken>> {
+        const db = await _db;
+        return await db.all('SELECT * FROM Token WHERE UserId = $userId', { $userId: userId });
+    }
+
+    static async saveAction(code: string, json: Json): Promise<void> {
+        const db = await _db;
+        await db.run('INSERT INTO Action (Code, Json) VALUES ($code, $json)', { $code: code, $json: JSON.stringify(json) });
+    }
+
+    static async retrieveAction(code: string): Promise<DbAction | undefined> {
+        const db = await _db;
+        const result = await db.get('SELECT * FROM Action WHERE Code = $code', { $code: code });
+        await db.run('DELETE FROM Action WHERE Code = $code', { $code: code });
+        return result ? {
+            code: result.Code,
+            json: JSON.parse(result.Json)
+        } : undefined;
     }
 }
+
