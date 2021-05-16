@@ -52,7 +52,6 @@ _db.then(opened => {
                         type: 'INTEGER',
                         notNull: true,
                         primary: true,
-                        unique: true,
                         foreignKey: {
                             table: 'User',
                             column: 'Id'

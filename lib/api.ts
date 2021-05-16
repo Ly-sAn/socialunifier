@@ -9,6 +9,7 @@ export async function fetchApi(path: ApiRoute, method: 'POST' | 'GET', data: Jso
     return await res.json()
 }
 
+// Permet de pouvoir renommé / déplacer une api facilement
 export enum ApiRoute {
     Login = '/api/auth/login',
     Register = '/api/auth/register',
@@ -16,6 +17,7 @@ export enum ApiRoute {
     User = '/api/auth/user',
     AuthorizeReddit = "/api/reddit/authorize",
     PostReddit = '/api/reddit/post',
+    AuthorizeMastodon = "/api/mastodon/authorize",
     Post = '/api/post',
 }
 

@@ -4,7 +4,7 @@ type Json = string | number | boolean | Json | Json[] | {
     [key: string]: Json;
 }
 
-type SocialNetwork = 'Reddit'
+type SocialNetwork = 'Reddit' | 'Mastodon'
 
 interface ErrorApiResult extends Json {
     success: false,

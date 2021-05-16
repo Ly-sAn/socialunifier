@@ -1,6 +1,7 @@
 import { NextApiResponse } from "next";
 import { PostError } from "../../lib/api";
 import withSession from "../../lib/session";
+import Mastodon from "../../lib/social-networks/mastodon";
 import Reddit from "../../lib/social-networks/reddit";
 import SocialNetworkApi from "../../lib/social-networks/SocialNetworkApi";
 import { ApiResult, SocialNetwork } from "../../types/global";
@@ -17,6 +18,8 @@ export default withSession(async (req, res: NextApiResponse<ApiResult>) => {
         switch (n) {
             case 'Reddit':
                 return new Reddit(userId);
+            case 'Mastodon':
+                return new Mastodon(userId);
             default:
                 throw new Error("Réseau non supporté");
         }
