@@ -1,5 +1,5 @@
-import React from "react"
-import ee from 'event-emitter'
+import React from "react";
+import ee from "event-emitter";
 
 const emitter = ee();
 
@@ -9,17 +9,17 @@ export function showError(message: string) {
 
 export default class ErrorBanner extends React.Component<{}, { opacity: number, message: string }> {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             opacity: 0,
             message: null,
-        }
+        };
         emitter.on('show', message => {
             this.setState({
                 opacity: 1,
                 message
             })
-        })
+        });
 
     }
 

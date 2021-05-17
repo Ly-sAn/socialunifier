@@ -13,12 +13,12 @@ export default withSession(async (req, res: NextApiResponse<User>) => {
     const user = await database.getAccount(userSession);    
     
     const tokens = await database.getAllTokensForUser(userSession);
-    const networks = tokens.map(t => t.Network)
+    const networks = tokens.map(t => t.Network);
     
     res.json({
         isLoggedIn: true,
         email: user.Email,
         userName: user.UserName,
         networks,
-    })
+    });
 })

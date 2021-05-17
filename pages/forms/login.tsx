@@ -9,7 +9,7 @@ import Layout from "../../components/layout";
 export default function Login() {
     
     async function login(e) {
-        e.preventDefault()
+        e.preventDefault();
 
         const result = await fetchApi(ApiRoute.Login, 'POST', {
             email: e.target.email.value,

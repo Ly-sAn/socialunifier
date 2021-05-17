@@ -6,7 +6,7 @@ import type { User } from '../types/global';
 
 export default function useUser(redirect = true): User {
     const { data: user, error } = useSwr(ApiRoute.User);
-    const router = useRouter()
+    const router = useRouter();
 
     if (redirect) {
         useEffect(() => {           

@@ -13,7 +13,7 @@ export default withSession(async (req, res: NextApiResponse<ApiResult>) => {
     const { email, password, userName } = await req.body;
 
     if (!emailRegex.test(email))
-      return res.json({ success: false, reason: RegisterError.InvalidEmail})
+      return res.json({ success: false, reason: RegisterError.InvalidEmail });
 
     const hash = await bcrypt.hash(password, 3);
     const id = await database.register({ email, pwdHash: hash, userName });
@@ -25,10 +25,10 @@ export default withSession(async (req, res: NextApiResponse<ApiResult>) => {
   } catch (err) {
 
     if (err.message === 'SQLITE_CONSTRAINT: UNIQUE constraint failed: User.Email')
-      res.json({ success: false, reason: RegisterError.ExistingEmail })
+      res.json({ success: false, reason: RegisterError.ExistingEmail });
 
     else {
-      res.json({ success: false, reason: RegisterError.UnknownError })
+      res.json({ success: false, reason: RegisterError.UnknownError });
       console.error(err);
     }
   }

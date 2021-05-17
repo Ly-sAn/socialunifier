@@ -5,13 +5,13 @@ type Params = {
     code: string
 }
 
-const clientId = process.env.DIASPORA_ID
-const clientSecret = process.env.DIASPORA_SECRET
-const callbackUrl = 'http://localhost:3000/api/diaspora/callback'
+const clientId = process.env.DIASPORA_ID;
+const clientSecret = process.env.DIASPORA_SECRET;
+const callbackUrl = 'http://localhost:3000/api/diaspora/callback';
 
 
 const tokenUrlTemplate = (code: string) =>
-   `https://diasp.org/api/openid_connect/access_tokens?code=${code}&client_id=${clientId}&client_secret=${clientSecret}&grant_type=authorization_code&redirect_uri=${callbackUrl}`
+    `https://diasp.org/api/openid_connect/access_tokens?code=${code}&client_id=${clientId}&client_secret=${clientSecret}&grant_type=authorization_code&redirect_uri=${callbackUrl}`;
 
 export default withSession(async (req, res) => {
     const params = req.query as unknown as Params;
@@ -25,15 +25,15 @@ export default withSession(async (req, res) => {
     }
 
     const responseJson = await (await fetch(tokenUrlTemplate(params.code), {
-        method: 'POST'
-    })).json()
+        method: 'POST',
+    })).json();
 
     if (responseJson.error) {
         console.log(`Message d'erreur reçu depuis mastodon: ${JSON.stringify(responseJson)}`);
         return res.redirect('/error');
     }
 
-    await database.saveToken({ socialNetwork: "Diaspora", token: responseJson.access_token, userId, expire: new Date(Date.now() + +responseJson.expires_in) })
+    await database.saveToken({ socialNetwork: "Diaspora", token: responseJson.access_token, userId, expire: new Date(Date.now() + +responseJson.expires_in) });
 
     res.redirect('/temp/account');
 

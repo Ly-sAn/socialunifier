@@ -28,7 +28,7 @@ export default withSession(async (req, res) => {
     }
 
     if (!currentActions.check(params.state, { userId }))
-        return res.redirect('/error?e=code')
+        return res.redirect('/error?e=code');
 
     const response = await fetch('https://www.reddit.com/api/v1/access_token', {
         method: 'POST',
@@ -39,7 +39,7 @@ export default withSession(async (req, res) => {
         }),
         headers: {
             Authorization: 'Basic ' + Buffer.from(redditId + ':' + redditSecret).toString('base64'),
-            'Content-Type': 'application/x-www-form-urlencoded'
+            'Content-Type': 'application/x-www-form-urlencoded',
         },
     })
     const json = await response.json();
@@ -49,7 +49,7 @@ export default withSession(async (req, res) => {
         return res.redirect('/error');
     }
     
-    await database.saveToken({ socialNetwork: "Reddit", userId, token: json.access_token, expire: new Date(Date.now() + +json.expires_in), refreshToken: json.refresh_token })
+    await database.saveToken({ socialNetwork: "Reddit", userId, token: json.access_token, expire: new Date(Date.now() + +json.expires_in), refreshToken: json.refresh_token });
 
-    res.redirect('/temp/account')
+    res.redirect('/temp/account');
 })

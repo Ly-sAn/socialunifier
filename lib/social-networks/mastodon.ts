@@ -12,9 +12,9 @@ export default class Mastodon extends SocialNetworkApi {
     async post(content: string): Promise<void> {
         const response = await fetch(urlTemplate(content), {
             headers: {
-                Authorization: `bearer ${this.token}`
+                Authorization: `bearer ${this.token}`,
             },
-            method: "POST"
+            method: "POST",
         });
 
         console.log("Mastodon a répondue:\n" + await response.text());

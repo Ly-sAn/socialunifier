@@ -1,5 +1,4 @@
 import { Database } from 'sqlite';
-import type sqlite3 from 'sqlite3'
 
 type DatabaseColumn = {
     name: string,
@@ -33,18 +32,8 @@ const columnTemplate = (column: DatabaseColumn) =>
 const foreignKeyTemplate = (column: DatabaseColumn) =>
     `FOREIGN KEY ("${column.name}") REFERENCES "${column.foreignKey.table}"("${column.foreignKey.column}")`;
 
-const maybe = (str: string, condition: any) => condition ? str : ''
+const maybe = (str: string, condition: any) => condition ? str : '';
 
-function dbAllAsync(db: sqlite3.Database, sql: string) {
-    return new Promise<Array<any>>((resolve, reject) => {
-        db.all(sql, (err, rows) => {
-            if (err)
-                reject(err)
-            else
-                resolve(rows)
-        });
-    })
-}
 
 export async function modelDatabase(model: DatabaseModel, db: Database) {
 
@@ -70,14 +59,18 @@ export async function modelDatabase(model: DatabaseModel, db: Database) {
         for (const column of table.columns) {
             if (!existingColumns.some(c => c.name === column.name)) {
                 if (column.unique) {
-                    console.log(`${table.name}.${column.name}: Impossible d'ajouter un colonne avec un contrainte UNIQUE (pour l'instant)`);
+                    console.log(`${table.name}.${column.name}: Impossible d'ajouter un colonne avec un contrainte UNIQUE`);
                     column.unique = false;
+                }
+                if (column.notNull) {
+                    console.log(`${table.name}.${column.name}: Impossible d'ajouter un colonne avec un contrainte NOT NULL`);
+                    column.notNull = false;
                 }
                 const statement = `
                     ALTER TABLE "${table.name}"
                         ADD ${columnTemplate(column)}
                 `
-                await db.run(statement)
+                await db.run(statement);
             }
         }
 

@@ -6,13 +6,13 @@ type Params = {
     error: string,
 }
 
-const clientId = process.env.MASTODON_ID
-const clientSecret = process.env.MASTODON_SECRET
-const callbackUrl = 'http://localhost:3000/api/mastodon/callback'
-const scope = 'write'
+const clientId = process.env.MASTODON_ID;
+const clientSecret = process.env.MASTODON_SECRET;
+const callbackUrl = 'http://localhost:3000/api/mastodon/callback';
+const scope = 'write';
 
 const tokenUrlTemplate = (code: string) =>
-    `https://mastodon.social/oauth/token?client_id=${clientId}&client_secret=${clientSecret}&redirect_uri=${callbackUrl}&scope=${scope}&code=${code}&grant_type=authorization_code`
+    `https://mastodon.social/oauth/token?client_id=${clientId}&client_secret=${clientSecret}&redirect_uri=${callbackUrl}&scope=${scope}&code=${code}&grant_type=authorization_code`;
 
 export default withSession(async (req, res) => {
     const params = req.query as unknown as Params;
@@ -31,8 +31,8 @@ export default withSession(async (req, res) => {
     }
 
     const responseJson = await (await fetch(tokenUrlTemplate(params.code), {
-        method: 'POST'
-    })).json()
+        method: 'POST',
+    })).json();
 
     if (responseJson.error) {
         console.log(`Message d'erreur reçu depuis mastodon: ${JSON.stringify(responseJson)}`);
@@ -45,5 +45,4 @@ export default withSession(async (req, res) => {
     await database.saveToken({ socialNetwork: "Mastodon", token: responseJson.access_token, userId })
 
     res.redirect('/temp/account');
-
 })

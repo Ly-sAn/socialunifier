@@ -1,4 +1,4 @@
-import type { ApiResult, Json } from "../types/global"
+import type { ApiResult, Json } from "../types/global";
 
 export async function fetchApi(path: ApiRoute, method: 'POST' | 'GET', data: Json): Promise<ApiResult> {
     const res = await global.fetch(path, {
@@ -6,7 +6,7 @@ export async function fetchApi(path: ApiRoute, method: 'POST' | 'GET', data: Jso
         headers: { "Content-Type": "application/json" },
         method,
     })
-    return await res.json()
+    return await res.json();
 }
 
 // Permet de pouvoir renommé / déplacer une api facilement
@@ -16,7 +16,6 @@ export enum ApiRoute {
     Logout = '/api/auth/logout',
     User = '/api/auth/user',
     AuthorizeReddit = "/api/reddit/authorize",
-    PostReddit = '/api/reddit/post',
     AuthorizeMastodon = "/api/mastodon/authorize",
     AuthorizeDiaspora = '/api/diaspora/authorize',
     Post = '/api/post',

@@ -1,4 +1,6 @@
-export default function (req, res) {
+import type { NextApiRequest, NextApiResponse } from "next";
+
+export default function (req: NextApiRequest, res: NextApiResponse) {
 
   let nodemailer = require('nodemailer')
   const transporter = nodemailer.createTransport({
@@ -9,7 +11,7 @@ export default function (req, res) {
       pass: 'CodingFactory2023',
     },
     secure: true,
-  })
+  });
 
   const mailData = {
     from: 'socialunifier101@gmail.com',
@@ -18,16 +20,15 @@ export default function (req, res) {
     text: "Sent from: " + req.body.email,
     html: `<div>COUCOU</div><p>Sent from:
     ${req.body.email}</p>`
-  }
+  };
 
-  console.log(req.body)
+  console.log(req.body);
 
   transporter.sendMail(mailData, function (err, info) {
-    if(err)
+    if (err)
       console.log(err)
     else
       console.log(info)
-  })
-  res.status(200)
-  
+  });
+  res.status(200);  
 }

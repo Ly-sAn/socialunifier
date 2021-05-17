@@ -45,8 +45,8 @@ export default withSession(async (req, res: NextApiResponse<ApiResult>) => {
     );
 
     if (results.every(r => r.status === 'fulfilled'))
-        return res.json({ success: true })
+        return res.json({ success: true });
     else
-        return res.json({ success: false, reason: PostError.UnknownError })
+        return res.json({ success: false, reason: PostError.UnknownError });
 
 })

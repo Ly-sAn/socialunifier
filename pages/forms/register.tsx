@@ -8,7 +8,7 @@ import Layout from '../../components/layout';
 
 export default function Register() {
     async function register(e) {
-        e.preventDefault()
+        e.preventDefault();
 
         if (e.target.password.value !== e.target.passwordConfirm.value) {
             return showError("Mots de passe différents")
@@ -31,7 +31,7 @@ export default function Register() {
                 default:
                     message = "Une erreur est survenue"; break;
             }
-            showError(message)
+            showError(message);
         }
     }
 

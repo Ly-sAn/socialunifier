@@ -1,16 +1,15 @@
-import { open } from 'sqlite';
-import sqlite3 from 'sqlite3';
-import { modelDatabase } from './databaseModeler';
-import type { Json, SocialNetwork } from '../types/global';
-import type { DbUser, DbToken, DbAction } from '../types/db';
+import { open } from "sqlite";
+import sqlite3 from "sqlite3";
+import { modelDatabase } from "./databaseModeler";
+import type { Json, SocialNetwork } from "../types/global";
+import type { DbUser, DbToken, DbAction } from "../types/db";
 
-sqlite3.verbose()
-
+sqlite3.verbose();
 
 const _db = open({
     filename: 'base.db',
     driver: sqlite3.Database
-})
+});
 
 _db.then(opened => {
     modelDatabase({
@@ -70,11 +69,11 @@ _db.then(opened => {
                     },
                     {
                         name: 'Expire',
-                        type: 'INTEGER'
+                        type: 'INTEGER',
                     },
                     {
                         name: 'RefreshToken',
-                        type: 'TEXT'
+                        type: 'TEXT',
                     }
                 ]
             },
@@ -98,7 +97,7 @@ _db.then(opened => {
             },
         ]
     }, opened)
-})
+});
 
 type saveCredentialsParams = {
     socialNetwork: SocialNetwork,

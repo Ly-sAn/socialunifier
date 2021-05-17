@@ -26,9 +26,9 @@ export default class Reddit extends SocialNetworkApi {
             }),
             headers: {
                 Authorization: 'Basic ' + Buffer.from(redditId + ':' + redditSecret).toString('base64'),
-                'Content-Type': 'application/x-www-form-urlencoded'
+                'Content-Type': 'application/x-www-form-urlencoded',
             },
-        })
+        });
         const json = await response.json();
 
         if (!response.ok || json.error) {
@@ -44,9 +44,9 @@ export default class Reddit extends SocialNetworkApi {
     async post(content: string, option?: OptionType): Promise<void> {
         const response = await fetch(urlTemplate(encodeURIComponent(option.subreddit), encodeURIComponent(content), encodeURIComponent(option.title)), {
             headers: {
-                Authorization: `bearer ${this.token}`
+                Authorization: `bearer ${this.token}`,
             },
-            method: "POST"
+            method: "POST",
         });
 
         console.log("Reddit a répondue:\n" + await response.text());
