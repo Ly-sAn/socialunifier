@@ -18,6 +18,7 @@ export enum ApiRoute {
     AuthorizeReddit = "/api/reddit/authorize",
     PostReddit = '/api/reddit/post',
     AuthorizeMastodon = "/api/mastodon/authorize",
+    AuthorizeDiaspora = '/api/diaspora/authorize',
     Post = '/api/post',
 }
 

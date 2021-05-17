@@ -10,6 +10,8 @@ export default function Authorize() {
             <a href={ApiRoute.AuthorizeReddit}>Reddit &rarr;</a>
             <br />
             <a href={ApiRoute.AuthorizeMastodon}>Mastodon &rarr;</a>
+            <br />
+            <a href={ApiRoute.AuthorizeDiaspora}>Diaspora &rarr;</a>
         </Layout>
     )
 }
