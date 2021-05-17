@@ -74,7 +74,11 @@ _db.then(opened => {
                     {
                         name: 'RefreshToken',
                         type: 'TEXT',
-                    }
+                    },
+                    {
+                        name: 'Secret',
+                        type: 'TEXT',
+                    },
                 ]
             },
             {
@@ -105,6 +109,7 @@ type saveCredentialsParams = {
     token: string,
     expire?: Date,
     refreshToken?: string,
+    tokenSecret?: string,
 }
 
 export default class database {
@@ -127,10 +132,10 @@ export default class database {
     }
 
 
-    static async saveToken({ socialNetwork, userId, token, expire, refreshToken }: saveCredentialsParams): Promise<void> {
+    static async saveToken({ socialNetwork, userId, token, expire, refreshToken, tokenSecret }: saveCredentialsParams): Promise<void> {
         const db = await _db;
-        await db.run('INSERT OR REPLACE INTO Token (UserId, Network, Code, Expire, RefreshToken) VALUES ($userId, $network, $code, $expire, $refreshToken)',
-            { $userId: userId, $network: socialNetwork, $code: token, $expire: expire, $refreshToken: refreshToken });
+        await db.run('INSERT OR REPLACE INTO Token (UserId, Network, Code, Expire, RefreshToken, Secret) VALUES ($userId, $network, $code, $expire, $refreshToken, $secret)',
+            { $userId: userId, $network: socialNetwork, $code: token, $expire: expire, $refreshToken: refreshToken, $secret: tokenSecret });
     }
 
     static async getToken(userId: number, socialNetwork: SocialNetwork): Promise<DbToken | undefined> {

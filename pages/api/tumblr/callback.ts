@@ -1,8 +1,9 @@
 import OAuth from "oauth-1.0a";
 import currentActions from "../../../lib/currentActions";
 import database from "../../../lib/database"
-import { createOAuth } from "../../../lib/OAuthHelper";
-import withSession from "../../../lib/session"
+import withSession from "../../../lib/session";
+import querystring from "querystring";
+import { OAuthRequest } from "../../../lib/OAuthRequest";
 
 type Params = {
     oauth_token: string,
@@ -13,8 +14,8 @@ type Params = {
 const key = process.env.TUMBLR_CONSUMER_KEY;
 const secret = process.env.TUMBLR_SECRET_KEY;
 
-const tokenUrlTemplate = (token: string) =>
-    `https://www.tumblr.com/oauth/access_token?oauth_verifier=${token}`
+const tokenUrlTemplate = (verifier: string, token: string) =>
+    `https://www.tumblr.com/oauth/access_token?oauth_verifier=${verifier}`
 
 export default withSession(async (req, res) => {
     const params = req.query as unknown as Params;
@@ -26,35 +27,28 @@ export default withSession(async (req, res) => {
     if (!params.oauth_verifier)
         return res.redirect('/error');
     
-    //const tempCredentials = await currentActions.retrieve(params.source)
+    const tempCredentials = await currentActions.retrieve(params.source);
 
-    // if (!tempCredentials)
-    //     return res.redirect('/error?e=code');
+    if (!tempCredentials)
+        return res.redirect('/error?e=code');
 
-    const oauth = createOAuth(key, secret);
+    const oauthRequest = new OAuthRequest({
+        key, secret,
+        method: 'POST',
+        url: tokenUrlTemplate(params.oauth_verifier, tempCredentials.oauth_token),        
+        tokenKey: tempCredentials.oauth_token,
+        tokenSecret: tempCredentials.oauth_token_secret,
+    })
 
-    const request: OAuth.RequestOptions = {
-        method: 'GET',
-        url: tokenUrlTemplate(params.oauth_verifier),
-    };
+    const plainResponse = await oauthRequest.fetchText();
+    const response = querystring.parse(plainResponse);
 
-    console.log(request);
-    //console.log(tempCredentials);
-    
+    if (!response.oauth_token) {
+        console.log(`Message d'erreur reçu depuis tumblr: ${plainResponse}`);
+        return res.redirect('/error');
+    }
 
-    const plainResponse = await (await fetch(request.url, {
-        method: request.method,
-        headers: oauth.toHeader(oauth.authorize(request)) as unknown as HeadersInit,
-    })).text()
+    await database.saveToken({ socialNetwork: 'Tumblr', userId, token: response.oauth_token as string, tokenSecret: response.oauth_token_secret as string})
 
-
-    // if (plainResponse.error) {
-    //     console.log(`Message d'erreur reçu depuis mastodon: ${JSON.stringify(plainResponse)}`);
-    //     return res.redirect('/error');
-    // }
-
-    // await database.saveToken({ socialNetwork: "Mastodon", token: plainResponse.access_token, userId })
-
-    res.send(plainResponse);
-
+    res.redirect('/temp/account');
 })

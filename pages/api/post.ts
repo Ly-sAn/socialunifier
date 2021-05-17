@@ -3,6 +3,7 @@ import { PostError } from "../../lib/api";
 import withSession from "../../lib/session";
 import Mastodon from "../../lib/social-networks/mastodon";
 import Reddit from "../../lib/social-networks/reddit";
+import Tumblr from "../../lib/social-networks/tumblr";
 import SocialNetworkApi from "../../lib/social-networks/SocialNetworkApi";
 import { ApiResult, SocialNetwork } from "../../types/global";
 
@@ -20,6 +21,8 @@ export default withSession(async (req, res: NextApiResponse<ApiResult>) => {
                 return new Reddit(userId);
             case 'Mastodon':
                 return new Mastodon(userId);
+            case 'Tumblr':
+                return new Tumblr(userId);
             default:
                 throw new Error("Réseau non supporté");
         }

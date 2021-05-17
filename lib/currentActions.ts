@@ -8,7 +8,7 @@ async function save(data: Json = {}): Promise<string> {
 }
 
 async function retrieve(code:string): Promise<Json | undefined> {
-    return (await database.retrieveAction(code)).json;
+    return (await database.retrieveAction(code))?.json;
 }
 
 async function check(code: string, data: Json): Promise<boolean> {

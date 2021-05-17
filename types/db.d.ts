@@ -13,6 +13,7 @@ type DbToken = {
     Code: string,
     Expire?: Date,
     RefreshToken?: string,
+    Secret?: string,
 }
 
 type DbAction = {

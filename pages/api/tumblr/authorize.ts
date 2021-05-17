@@ -1,7 +1,8 @@
 import withSession from "../../../lib/session"
 import OAuth from 'oauth-1.0a'
 import currentActions from "../../../lib/currentActions";
-import { createOAuth } from "../../../lib/OAuthHelper";
+import querystring from "querystring";
+import { OAuthRequest } from "../../../lib/OAuthRequest";
 
 const key = process.env.TUMBLR_CONSUMER_KEY;
 const secret = process.env.TUMBLR_SECRET_KEY;
@@ -14,20 +15,16 @@ export default withSession(async (req, res) => {
     if (!userId)
         return res.status(401).send('Please login');
     
-    const oauth = createOAuth(key, secret);
-
-    const request: OAuth.RequestOptions = {
+    const oauthRequest = new OAuthRequest({
+        key, secret,
         method: 'POST',
         url: 'https://www.tumblr.com/oauth/request_token',
-    };
+    });
 
-    const plainResponse = await (await fetch(request.url, {
-        method: request.method,
-        headers: oauth.toHeader(oauth.authorize(request)) as unknown as HeadersInit        
-    })).text();
-    const response = Object.fromEntries(new URLSearchParams(plainResponse));
+    const plainResponse = await oauthRequest.fetchText();
+    const response = querystring.parse(plainResponse);
 
     const code = await currentActions.save(response);
     
-    res.redirect(url(response.oauth_token, code));
+    res.redirect(url(response.oauth_token as string, code));
 })
