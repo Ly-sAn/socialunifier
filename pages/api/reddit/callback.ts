@@ -27,7 +27,7 @@ export default withSession(async (req, res) => {
         }
     }
 
-    if (!currentActions.retrieve(params.state, userId, 'Reddit'))
+    if (!currentActions.check(params.state, { userId }))
         return res.redirect('/error?e=code')
 
     const response = await fetch('https://www.reddit.com/api/v1/access_token', {

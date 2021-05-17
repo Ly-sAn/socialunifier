@@ -8,15 +8,13 @@ const clientId = process.env.REDDIT_ID;
 const urlTemplate = (state: string) =>
     `https://www.reddit.com/api/v1/authorize?client_id=${clientId}&response_type=code&state=${state}&redirect_uri=${callbackUrl}&duration=permanent&scope=${scope}`
 
-export default withSession((req, res) => {
+export default withSession(async (req, res) => {
     const userId = req.session.get('user')
     if (!userId)
-        return res.status(401).send('Please login');
+        return res.status(401).send('Please login');    
 
-    const randomString = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    const state = await currentActions.save({ userId });
 
-    currentActions.save(randomString, userId, 'Reddit');
-
-    const url = urlTemplate(randomString);
+    const url = urlTemplate(state);
     res.redirect(url);
 })
