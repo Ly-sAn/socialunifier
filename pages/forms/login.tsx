@@ -16,7 +16,8 @@ export default function Login() {
             password: e.target.password.value,
         });
         
-        if (result.success)
+        // sans le '=== true' typescript n'est pas content
+        if (result.success === true)
             router.push('/temp/account');
         else {
             let message: string;

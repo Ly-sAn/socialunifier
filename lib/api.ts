@@ -9,7 +9,7 @@ export async function fetchApi(path: ApiRoute, method: 'POST' | 'GET', data: Jso
     return await res.json();
 }
 
-// Permet de pouvoir renommé / déplacer une api facilement
+// Permet de pouvoir renommer / déplacer une api facilement
 export enum ApiRoute {
     Login = '/api/auth/login',
     Register = '/api/auth/register',

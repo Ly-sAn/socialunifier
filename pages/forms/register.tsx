@@ -19,7 +19,9 @@ export default function Register() {
             password: e.target.password.value,
             userName: e.target.userName.value,
         });
-        if (result.success)
+
+        // sans le '=== true' typescript n'est pas content
+        if (result.success === true)
             router.push('/temp/account');
         else {
             var message: string;
