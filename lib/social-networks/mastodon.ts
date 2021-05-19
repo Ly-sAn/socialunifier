@@ -9,29 +9,31 @@ export default class Mastodon extends SocialNetworkApi {
         super(userId, 'Mastodon');
     }
 
-    async post(content: string, media: Media): Promise<void> {
+    async post(content: string, medias: Media[]): Promise<void> {
         const headers = {
             Authorization: `bearer ${this.token}`,
-        };
+        };        
 
         const mediaIds = []
-        console.log(media);
 
-        if (media) {
+        for (const media of medias) {
             const formData = new FormData();
-            formData.append('file', media.buffer, "test.png");
+            formData.append('file', media.buffer, media.fileName);
 
             const response = await (await fetch('https://mastodon.social/api/v1/media', {
                 headers,
                 method: "POST",
-                body: formData,
+                body: formData as unknown as BodyInit,
             })).json();
 
             if (response.error)
-                throw new Error("Erreur en envoyant une image a Mastodon: " + response.error);
+                throw new Error("Erreur en envoyant une image a Mastodon: " + JSON.stringify(response.error));
             
             mediaIds.push(response.id);
         }
+
+        console.log(mediaIds);
+        
 
         const response = await fetch(url, {
             headers: {

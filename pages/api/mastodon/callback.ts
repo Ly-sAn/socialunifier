@@ -39,8 +39,6 @@ export default withSession(async (req, res) => {
         return res.redirect('/error');
     }
 
-    console.log(responseJson);
-
 
     await database.saveToken({ socialNetwork: "Mastodon", token: responseJson.access_token, userId })
 

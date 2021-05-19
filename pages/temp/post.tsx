@@ -32,13 +32,15 @@ export default function Post() {
             data.redditOptions = {
                 subreddit: e.target.reddit_subreddit.value,
                 title: e.target.reddit_title.value,
+                postType: e.target.media.value ? 'image' : 'text',
             }
         }
 
         formData.append('request', JSON.stringify(data));
 
-        if (e.target.media.value)
-            formData.append('media', e.target.media.files[0]);
+        for (const i in e.target.media.files) {
+            formData.append(i, e.target.media.files[i])
+        }
 
         const result: ApiResult = await (await fetch(ApiRoute.Post, {
             body: formData,
@@ -59,11 +61,6 @@ export default function Post() {
         else
             selectedNetworks.delete(network);
         setSelectedNetworks(new Set(selectedNetworks));
-    }
-
-    function handleMediaUpload(e) {
-        console.log(e.target.files[0]);
-        
     }
 
     const networkSelector = user.networks.map(n => <>
@@ -90,7 +87,7 @@ export default function Post() {
                 <textarea name="content" id="content" required autoFocus></textarea>
 
                 <label htmlFor="media">Image / vidéo</label>
-                <input type="file" name="media" id="media" onChange={handleMediaUpload} accept="image/*,video/*" />
+                <input type="file" name="media" id="media" accept="image/*,video/*,audio/mp3" multiple />
 
                 <button type="submit">Envoyer</button>
             </form>

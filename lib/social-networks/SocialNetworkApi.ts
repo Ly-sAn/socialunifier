@@ -25,6 +25,6 @@ export default abstract class SocialNetworkApi {
         throw new Error("Not implemented");
     }
 
-    abstract post(content: string, media: Media | undefined, option?: any): Promise<void>;
+    abstract post(content: string, medias: Media[], option?: any): Promise<void>;
 
 }
