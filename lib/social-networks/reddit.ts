@@ -5,13 +5,17 @@ import SocialNetworkApi from "./SocialNetworkApi";
 type OptionType = {
     subreddit: string,
     title: string,
+    postType: 'image' | 'text',
 }
 
 const redditId = process.env.REDDIT_ID;
 const redditSecret = process.env.REDDIT_SECRET;
 
-const urlTemplate = (subreddit: string, content: string, title: string) => 
+const textUrlTemplate = (subreddit: string, content: string, title: string) =>
     `https://oauth.reddit.com/api/submit?kind=self&sr=${subreddit}&text=${content}&title=${title}`
+
+const imageUrlTemplate = (subreddit: string, link: string, title: string) =>
+    `https://oauth.reddit.com/api/submit?kind=image&sr=${subreddit}&url=${link}&title=${title}`
 
 export default class Reddit extends SocialNetworkApi {
     constructor(userId: number) {
@@ -38,12 +42,16 @@ export default class Reddit extends SocialNetworkApi {
 
         const expire = new Date(Date.now() + +json.expires_in);
 
-        await database.saveToken({ socialNetwork: "Reddit", userId: this.userId, token: json.access_token, expire , refreshToken: json.refresh_token });
+        await database.saveToken({ socialNetwork: "Reddit", userId: this.userId, token: json.access_token, expire, refreshToken: json.refresh_token });
         this.token = json.access_token;
     }
 
     async post(content: string, media: Media, option?: OptionType): Promise<void> {
-        const response = await fetch(urlTemplate(encodeURIComponent(option.subreddit), encodeURIComponent(content), encodeURIComponent(option.title)), {
+        const url = option.postType === 'image'
+            ? imageUrlTemplate(encodeURIComponent(option.subreddit), encodeURIComponent(media.url), encodeURIComponent(option.title))
+            : textUrlTemplate(encodeURIComponent(option.subreddit), encodeURIComponent(content), encodeURIComponent(option.title));
+
+        const response = await fetch(url, {
             headers: {
                 Authorization: `bearer ${this.token}`,
             },
