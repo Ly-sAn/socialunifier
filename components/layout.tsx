@@ -14,7 +14,7 @@ const Layout: FunctionComponent<LayoutProps> = (props) => {
                 <link rel='icon' href='/favicon.ico' />
             </Head>
             <Navbar />
-            <main>
+            <main className='bg-gray-200'>
                 {props.children}
             </main>
             <footer className="bg-gradient-to-r to-blue-400 from-green-300 py-1">
