@@ -1,3 +1,4 @@
+import { Media } from "../../types/global";
 import database from "../database";
 import SocialNetworkApi from "./SocialNetworkApi";
 
@@ -41,7 +42,7 @@ export default class Reddit extends SocialNetworkApi {
         this.token = json.access_token;
     }
 
-    async post(content: string, option?: OptionType): Promise<void> {
+    async post(content: string, media: Media, option?: OptionType): Promise<void> {
         const response = await fetch(urlTemplate(encodeURIComponent(option.subreddit), encodeURIComponent(content), encodeURIComponent(option.title)), {
             headers: {
                 Authorization: `bearer ${this.token}`,

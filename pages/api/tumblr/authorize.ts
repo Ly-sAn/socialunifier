@@ -1,5 +1,4 @@
 import withSession from "../../../lib/session"
-import OAuth from 'oauth-1.0a'
 import currentActions from "../../../lib/currentActions";
 import querystring from "querystring";
 import { OAuthRequest } from "../../../lib/OAuthRequest";

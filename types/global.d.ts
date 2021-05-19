@@ -41,3 +41,10 @@ interface UserLoggedIn {
 }
 
 type User = UserNotLoggedIn | UserLoggedIn
+
+type Media = {
+    url: string,
+    mimeType: string,
+    buffer: Buffer,
+    fileName: string,
+}

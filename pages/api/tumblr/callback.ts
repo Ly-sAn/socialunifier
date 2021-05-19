@@ -1,4 +1,3 @@
-import OAuth from "oauth-1.0a";
 import currentActions from "../../../lib/currentActions";
 import database from "../../../lib/database"
 import withSession from "../../../lib/session";

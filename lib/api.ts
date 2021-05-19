@@ -37,4 +37,5 @@ export enum PostError {
     UnknownError,
     NotLoggedIn,
     NoCredentials,
+    MediaUploadError,
 }

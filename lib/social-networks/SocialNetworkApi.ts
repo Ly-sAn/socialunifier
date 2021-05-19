@@ -1,5 +1,5 @@
 import { DbToken } from "../../types/db";
-import { SocialNetwork } from "../../types/global";
+import { Media, SocialNetwork } from "../../types/global";
 import database from "../database";
 
 export default abstract class SocialNetworkApi {
@@ -25,6 +25,6 @@ export default abstract class SocialNetworkApi {
         throw new Error("Not implemented");
     }
 
-    abstract post(content: string, option?: any): Promise<void>;
+    abstract post(content: string, media: Media | undefined, option?: any): Promise<void>;
 
 }

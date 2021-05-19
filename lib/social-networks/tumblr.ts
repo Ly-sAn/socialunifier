@@ -1,3 +1,4 @@
+import { Json, Media } from "../../types/global";
 import { OAuthRequest } from "../OAuthRequest";
 import SocialNetworkApi from "./SocialNetworkApi";
 
@@ -34,7 +35,28 @@ export default class Tumblr extends SocialNetworkApi {
     }
 
 
-    async post(content: string): Promise<void> {
+    async post(content: string, media: Media): Promise<void> {
+        const data: Json = {
+            content: [
+                {
+                    type: 'text',
+                    text: content
+                }
+            ],
+        };
+
+        if (media) {
+            data.content.push({
+                type: 'image',
+                media: [
+                    {
+                        url: media.url,
+                        type: media.mimeType,
+                    },
+                ]
+            })
+        }
+
         const oauthRequest = new OAuthRequest({
             key, secret,
             method: 'POST',
@@ -42,14 +64,7 @@ export default class Tumblr extends SocialNetworkApi {
             tokenKey: this.dbToken.Code,
             tokenSecret: this.dbToken.Secret,
 
-            body: {
-                content: [
-                    {
-                        type: 'text',
-                        text: content
-                    }
-                ],
-            },
+            body: data,
         });
 
         const response = await oauthRequest.fetch();

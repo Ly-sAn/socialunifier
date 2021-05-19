@@ -4,7 +4,7 @@ import ErrorBanner, { showError } from "../../components/error-banner";
 import Layout from "../../components/layout";
 import { ApiRoute, fetchApi } from "../../lib/api";
 import useUser from "../../lib/useUser";
-import { Json, SocialNetwork } from "../../types/global";
+import { ApiResult, Json, SocialNetwork } from "../../types/global";
 import Authorize from "./authorize";
 
 export default function Post() {
@@ -21,6 +21,8 @@ export default function Post() {
     async function handleSubmit(e) {
         e.preventDefault();
 
+        const formData = new FormData();
+
         const data: Json = {
             content: e.target.content.value,
             selectedNetworks: Array.from(selectedNetworks),
@@ -32,7 +34,16 @@ export default function Post() {
                 title: e.target.reddit_title.value,
             }
         }
-        const result = await fetchApi(ApiRoute.Post, 'POST', data);
+
+        formData.append('request', JSON.stringify(data));
+
+        if (e.target.media.value)
+            formData.append('media', e.target.media.files[0]);
+
+        const result: ApiResult = await (await fetch(ApiRoute.Post, {
+            body: formData,
+            method: 'POST',
+        })).json();
 
         if (result.success)
             router.push('/temp/account');
@@ -50,8 +61,13 @@ export default function Post() {
         setSelectedNetworks(new Set(selectedNetworks));
     }
 
+    function handleMediaUpload(e) {
+        console.log(e.target.files[0]);
+        
+    }
+
     const networkSelector = user.networks.map(n => <>
-        <label htmlFor={n}><input type="checkbox" name={n} onChange={handleNetworkSelect} /> {n}</label>
+        <label htmlFor={n}><input type="checkbox" name={n} id={n} onChange={handleNetworkSelect} /> {n}</label>
     </>)
 
     return (
@@ -71,7 +87,10 @@ export default function Post() {
                 </> : ''}
 
                 <label htmlFor="content">Contenue:</label>
-                <textarea name="content" required autoFocus></textarea>
+                <textarea name="content" id="content" required autoFocus></textarea>
+
+                <label htmlFor="media">Image / vidéo</label>
+                <input type="file" name="media" id="media" onChange={handleMediaUpload} accept="image/*,video/*" />
 
                 <button type="submit">Envoyer</button>
             </form>
