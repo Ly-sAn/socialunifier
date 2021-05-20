@@ -16,6 +16,8 @@ export default withSession(async (req, res: NextApiResponse<ApiResult>) => {
 
         const {email, password, userName} = req.body;
 
+        console.log(req.body)
+
         if (!emailRegex.test(email)) {
             return res.json({ success: false, reason: UpdateError.InvalidEmail});
         }

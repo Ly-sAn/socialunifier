@@ -38,7 +38,6 @@ interface UserLoggedIn {
     email: string,
     userName: string,
     networks: Array<SocialNetwork>,
-    Id: number
 }
 
 type User = UserNotLoggedIn | UserLoggedIn

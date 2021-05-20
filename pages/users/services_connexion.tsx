@@ -3,6 +3,7 @@ import LeftNavBar from "../../components/leftNavbar";
 import Link from "next/link";
 import { ApiRoute } from "../../lib/api";
 import useUser from "../../lib/useUser";
+import Layout from "../../components/layout";
 
 
 
@@ -10,8 +11,7 @@ export default function ServicesConnexion() {
     useUser();
 
     return (
-        <>
-            <LeftNavBar/>
+        <Layout>
             <section className={styles.services_connect_container}>
                 <div className={styles.services_connect_title}>
                     Connexions aux services
@@ -36,6 +36,6 @@ export default function ServicesConnexion() {
                     </div>
                 </div>
             </section>
-        </>
+        </Layout>
     )
 }

@@ -30,6 +30,11 @@ const Navbar = () => {
              Publier un post
            </a>
          </Link>
+         <Link href='/users/services_connexion'>
+           <a className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:text-blue-100'>
+             Me connecter aux services
+           </a>
+         </Link>
          <Link href='/users/account'>
            <a className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:text-blue-100'>
              Mon compte

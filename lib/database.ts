@@ -123,7 +123,7 @@ export default class database {
 
     static async updateUser({email, pwHash, userName, id}) {
         const db = await _db;
-        await db.run('UPDATE User SET (Email, PasswordHash, UserName) VALUES ($email, $password, $userName) WHERE $id = $id;', {$email: email, $password: pwHash, $userName: userName, $id: id});
+        await db.run('UPDATE User SET Email = $email, PasswordHash = $password, UserName = $userName WHERE id = $id;', {$email: email, $password: pwHash, $userName: userName, $id: id});
         const newCredentials = await db.get('SELECT Id FROM User WHERE Id = $id', {$id: id});
         return newCredentials.Id;
     }

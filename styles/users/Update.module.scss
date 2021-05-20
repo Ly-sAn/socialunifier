@@ -3,9 +3,18 @@
 
 .container {
 
-  margin-left: 200px;
   background: #FBFDFF;
-  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translate(10px, 30px);
+
+  .container_elements {
+    width: 80%;
+    max-width: 80%;
+    padding-bottom: 50px;
+
+  }
 
   .user_update_title {
     width: 100%;

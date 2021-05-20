@@ -17,7 +17,7 @@ const LeftNavBar = () => {
                 <Link href="/users/account_update">
                     <a>Modifier mon profil</a>
                 </Link>
-                <Link href="/api/temp/post">
+                <Link href="/temp/post">
                     <a>Publier un post</a>
                 </Link>
                 <Link href="/api/auth/logout">

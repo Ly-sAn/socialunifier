@@ -2,6 +2,7 @@ import Navbar from "../../components/navbar";
 import useUser from "../../lib/useUser";
 import styles from '../../styles/users/Account.module.scss';
 import LeftNavBar from "../../components/leftNavbar";
+import Layout from "../../components/layout";
 
 
 const UserAccount = () => {
@@ -14,8 +15,7 @@ const UserAccount = () => {
     }
 
       return (
-        <>
-            <LeftNavBar />
+        <Layout>
             <section className={styles.account_users}>
                 <div className={styles.account_users_welcome}>
                     <div className={styles.account_status}>
@@ -27,7 +27,7 @@ const UserAccount = () => {
                     </div>
                 </div>
             </section>
-        </>
+        </Layout>
       )
 }
 

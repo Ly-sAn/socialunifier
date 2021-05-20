@@ -20,6 +20,5 @@ export default withSession(async (req, res: NextApiResponse<User>) => {
         email: user.Email,
         userName: user.UserName,
         networks,
-        Id: user.Id
     });
 })
