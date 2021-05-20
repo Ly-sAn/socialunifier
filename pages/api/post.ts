@@ -78,9 +78,6 @@ export default withSession(async (req, res: NextApiResponse<ApiResult>) => {
         )
     );
 
-    console.log(results[0].reason);
-
-
     res.json({
         success: true,
         posts: results.map(r =>
