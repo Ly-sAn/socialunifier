@@ -51,3 +51,20 @@
     }
   }
 }
+
+@media (min-width: 0px) and (max-width: 830px) {
+
+  .services_connect_container {
+
+    .services_social_media_container {
+
+      .services_social_media {
+        flex-direction: column;
+
+        .services_connect_social_btn {
+          margin-top: 40px;
+        }
+      }
+    }
+  }
+}
