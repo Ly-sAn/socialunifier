@@ -32,7 +32,7 @@ export default function Post() {
             data.redditOptions = {
                 subreddit: e.target.reddit_subreddit.value,
                 title: e.target.reddit_title.value,
-                postType: e.target.media.value ? 'image' : 'text',
+                imagePost: e.target.media.value,
             }
         }
 

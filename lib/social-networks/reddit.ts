@@ -16,7 +16,7 @@ const imageUploadUrl = `https://api.cloudinary.com/v1_1/${cloudinaryName}/image/
 type OptionType = {
     subreddit: string,
     title: string,
-    postType: 'image' | 'text',
+    imagePost: boolean,
 }
 
 const redditId = process.env.REDDIT_ID;
@@ -63,9 +63,9 @@ export default class Reddit extends SocialNetworkApi {
             imageUrl = await this.uploadImage(medias[0]);
         }
 
-        const url = option.postType === 'image'
+        const url = option.imagePost
             ? imageUrlTemplate(encodeURIComponent(option.subreddit), encodeURIComponent(imageUrl), encodeURIComponent(option.title))
-            : textUrlTemplate(encodeURIComponent(option.subreddit), encodeURIComponent(""), encodeURIComponent(""));
+            : textUrlTemplate(encodeURIComponent(option.subreddit), encodeURIComponent(content), encodeURIComponent(option.title));
 
         const response = await (await fetch(url, {
             headers: {

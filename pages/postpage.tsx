@@ -1,30 +1,24 @@
-import Link from "next/link";
 import Layout from "../components/layout";
 import useUser from "../lib/useUser";
-import type { UserLoggedIn } from "../types/global";
 import { ApiRoute, fetchApi } from "../lib/api";
-import { useRouter } from "next/router";
 import { useState } from "react";
-import ErrorBanner, { showError } from "../components/error-banner";
-import { Json, SocialNetwork } from "../types/global";
+import { showError } from "../components/error-banner";
+import type { ApiResult, Json, SocialNetwork } from "../types/global";
 
 export default function PostPage() {
 
     const [selectedNetworks, setSelectedNetworks] = useState<Set<SocialNetwork>>(new Set());
-    const router = useRouter();
     const user = useUser();
-    const [redditToggle, setRedditToggle] = useState('Texte');
+    const [redditToggle, setRedditToggle] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState('Envoyer');
-
 
     if (!user?.isLoggedIn)
         return <Layout><p>Chargement...</p></Layout>
 
-    // if (user.networks.length < 1)
-    //     return <Authorize />
-
     async function handleSubmit(e) {
         e.preventDefault();
+
+        const formData = new FormData();
 
         const data: Json = {
             content: e.target.content.value,
@@ -35,11 +29,24 @@ export default function PostPage() {
             data.redditOptions = {
                 subreddit: e.target.reddit_subreddit.value,
                 title: e.target.reddit_title.value,
+                imagePost: redditToggle
             }
         }
-        const result = await fetchApi(ApiRoute.Post, 'POST', data);
 
-        if (!result.success)
+        formData.append('request', JSON.stringify(data));
+
+        for (const i in e.target.media.files) {
+            formData.append(i, e.target.media.files[i])
+        }
+
+        const result: ApiResult = await (await fetch(ApiRoute.Post, {
+            body: formData,
+            method: 'POST',
+        })).json();
+
+        if (result.success)
+            console.log(result);            
+        else
             showError("Une erreur est survenue");
     }
 
@@ -55,13 +62,7 @@ export default function PostPage() {
     }
 
     function textOrImage(e) {
-
-        console.log(e.currentTarget.checked);
-
-        if(e.currentTarget.checked)
-            setRedditToggle('Image');
-        else
-            setRedditToggle('Texte');
+        setRedditToggle(e.currentTarget.checked);
     }
 
     const networkSelector = user.networks.map(n => <>
@@ -79,18 +80,10 @@ export default function PostPage() {
         </div>
     </>)
 
-    //const user = useUser() as UserLoggedIn
-
-    if (!user?.isLoggedIn)
-        return <Layout><p>Chargement...</p></Layout>
-
-
-    const networks = user.networks.map(n => <li key={n} >{n}</li>);
-
     return (
         <Layout>
 
-            <div className="text-center flex justify-center align-middle md:m-12 m-2 shadow-xl md:p-6 p-2  rounded bg-gradient-to-tl from-purple-300 to-red-200 ">
+            <div className="text-center flex justify-center align-middle md:mx-auto md:my-12 max-w-4xl m-2 shadow-xl md:p-6 p-2 rounded bg-gradient-to-tl from-purple-300 to-red-200 ">
                 <form onSubmit={handleSubmit}>
 
                     <div className="">
@@ -125,18 +118,18 @@ export default function PostPage() {
                     </> : ''}
 
                     {selectedNetworks.has('Reddit') ? <>
-                    <div className=' pb-2'>
-                        <label htmlFor='textOrImage' className="flex items-center cursor-pointer">
-                            <div className="relative">
-                                <input id='textOrImage' type="checkbox" name='textOrImage' onChange={textOrImage} className=" form-checkbox sr-only" />
-                                <div className="block bg-gray-600 w-14 h-8 rounded-full"></div>
-                                <div className="dot absolute left-1 top-1 bg-red-600 w-6 h-6 rounded-full transition"></div>
-                            </div>
-                            <div className="ml-3 text-gray-700 font-medium">
-                                Reddit mode : {redditToggle}
-                            </div>
-                        </label>
-                    </div>
+                        <div className=' pb-2'>
+                            <label htmlFor='textOrImage' className="flex items-center cursor-pointer">
+                                <div className="relative">
+                                    <input id='textOrImage' type="checkbox" name='textOrImage' onChange={textOrImage} className=" form-checkbox sr-only" />
+                                    <div className="block bg-gray-600 w-14 h-8 rounded-full"></div>
+                                    <div className="dot absolute left-1 top-1 bg-red-600 w-6 h-6 rounded-full transition"></div>
+                                </div>
+                                <div className="ml-3 text-gray-700 font-medium">
+                                    Reddit mode : {redditToggle ? "Texte" : "Image"}
+                                </div>
+                            </label>
+                        </div>
                         <div className=" mb-6">
                             <div className="">
                                 <label htmlFor="subreddit" className="block text-gray-600 font-bold   mb-3 ">
@@ -154,12 +147,12 @@ export default function PostPage() {
 
                     <div className=" mb-6">
                         <div className="">
-                            <label htmlFor="upload" className="block text-gray-600 font-bold   mb-3 ">
+                            <label htmlFor="media" className="block text-gray-600 font-bold   mb-3 ">
                                 Ajouter une image ou une vidéo
                                     </label>
                         </div>
                         <div className=" py-2 ">
-                            <input type="file" name="upload" id="upload" accept="image/*,video/*" />
+                            <input type="file" name="media" id="media" accept="image/*,video/*" />
                         </div>
                     </div>
                     <div className=" mb-6">
@@ -179,7 +172,7 @@ export default function PostPage() {
                         <div className="">
                             <button className="shadow bg-green-400 hover:bg-green-300 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">
                                 {isLoading}
-                                </button>
+                            </button>
                         </div>
                     </div>
                 </form>
