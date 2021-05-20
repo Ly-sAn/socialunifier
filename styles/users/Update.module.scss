@@ -3,24 +3,19 @@
 
 .container {
 
-  background: #FBFDFF;
   display: flex;
   justify-content: center;
   align-items: center;
-  transform: translate(10px, 30px);
-
+  
   .container_elements {
     width: 80%;
-    max-width: 80%;
+    max-width: 60em;
     padding-bottom: 50px;
-
   }
 
   .user_update_title {
-    width: 100%;
     text-align: center;
     padding-top: 3%;
-    display: flex;
     flex-direction: column;
     font-size: 2.1em;
   }
@@ -44,7 +39,6 @@
         flex-direction: column;
         align-items: center;
         margin-top: 45px;
-        width: 50%;
 
         > label {
           padding-bottom: 5px;
@@ -56,6 +50,7 @@
           border-radius: 10px;
           border: 1px solid #2E365B;
           padding-left: 10px;
+          background-color: rgb(255, 251, 235);
         }
       }
 

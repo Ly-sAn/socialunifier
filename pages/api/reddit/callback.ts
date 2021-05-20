@@ -51,5 +51,5 @@ export default withSession(async (req, res) => {
     
     await database.saveToken({ socialNetwork: "Reddit", userId, token: json.access_token, expire: new Date(Date.now() + +json.expires_in), refreshToken: json.refresh_token });
 
-    res.redirect('/temp/account');
+    res.redirect('/users/services_connexion');
 })

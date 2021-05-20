@@ -49,5 +49,5 @@ export default withSession(async (req, res) => {
 
     await database.saveToken({ socialNetwork: 'Tumblr', userId, token: response.oauth_token as string, tokenSecret: response.oauth_token_secret as string})
 
-    res.redirect('/temp/account');
+    res.redirect('/users/services_connexion');
 })

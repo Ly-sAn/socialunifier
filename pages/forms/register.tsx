@@ -27,7 +27,7 @@ export default function Register() {
 
         // sans le '=== true' typescript n'est pas content
         if (result.success === true)
-            router.push('/temp/account');
+            router.push('/users/services_connexion');
         else {
             var message: string;
             switch (result.reason) {
@@ -75,7 +75,7 @@ export default function Register() {
 
                                 </form>
 
-                                <button type="submit" form={styles.form_register} disabled={isLoading}>Créer un compte<LoadingAnim visible={isLoading}/></button>
+                                <button type="submit" form={styles.form_register} disabled={isLoading}><span>Créer un compte</span><LoadingAnim visible={isLoading}/></button>
                                 <p className={styles.exist_account}>Vous avez déjà un compte ?
                                     <span>
                                         <Link href="/forms/login">

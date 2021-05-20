@@ -102,7 +102,7 @@ export default function PostPage() {
                     <div className="">
                         <h1 className='text-2xl font-bold mb-6'>Publication d'un post</h1>
                         <div className="">
-                            <label className=" block text-gray-600 font-bold  mb-3  pr-4">
+                            <label className=" block text-gray-600 font-bold mb-3 pr-4">
                                 Choix des réseaux
                             </label>
                         </div>
@@ -175,7 +175,7 @@ export default function PostPage() {
                             </label>
                         </div>
                         <div className="">
-                            <textarea className="form-textarea block w-full focus:bg-white" name='content' rows={6} required ></textarea>
+                            <textarea className="form-textarea block w-full focus:bg-white bg-green-50" name='content' rows={6} required ></textarea>
                             <p className="py-2 text-sm text-gray-600">Contenu principal du post</p>
                         </div>
                     </div>

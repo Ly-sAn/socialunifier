@@ -3,6 +3,7 @@
         "AUTOINCREMENT",
         "cloudinary",
         "datauri",
+        "mixins",
         "originalname",
         "postpage",
         "rowid",

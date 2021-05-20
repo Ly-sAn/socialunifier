@@ -3,8 +3,8 @@
 // mixin for submit btn for Form authentication ( register, login )
 @mixin btn_authentication () {
   button {
-    height: 30px;
-    width: 163px;
+    min-height: 30px;
+    min-width: 163px;
     outline: none;
     border: none;
     background-color: $btn-background-color;
@@ -13,6 +13,10 @@
     cursor: pointer;
     transition: .1s ease-in;
     border-radius: 30px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 
     &:hover {
       background-color: $btn-hover-color;

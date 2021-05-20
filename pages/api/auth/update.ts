@@ -1,29 +1,37 @@
 import withSession from "../../../lib/session";
-import type {NextApiResponse} from "next";
-import {ApiResult} from "../../../types/global";
-import {RegisterError, UpdateError} from "../../../lib/api";
+import type { NextApiResponse } from "next";
+import { ApiResult } from "../../../types/global";
+import { UpdateError } from "../../../lib/api";
 import bcrypt from 'bcrypt'
 import database from "../../../lib/database";
 
 
-const emailRegex =  /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+const emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
 export default withSession(async (req, res: NextApiResponse<ApiResult>) => {
 
     try {
-
         const userSession: number = req.session.get('user')
 
-        const {email, password, userName} = req.body;
-
-        console.log(req.body)
-
+        let { email, password, userName } = req.body;        
+        
+        const currentInfo = await database.getAccount(userSession);
+        
+        email = email || currentInfo.Email;
+        userName = userName || currentInfo.UserName;
+        
         if (!emailRegex.test(email)) {
-            return res.json({ success: false, reason: UpdateError.InvalidEmail});
+            return res.json({ success: false, reason: UpdateError.InvalidEmail });
         }
 
-        const pwHash = await bcrypt.hash(password, 3);
-        await database.updateUser({email, pwHash, userName, id: userSession});
+        let pwHash: string;
+
+        if (password)
+            pwHash = await bcrypt.hash(password, 3);
+        else
+            pwHash = currentInfo.PasswordHash;
+        
+        await database.updateUser({ email, pwHash, userName, id: userSession });
 
         await req.session.save();
         res.json({ success: true });

@@ -42,5 +42,5 @@ export default withSession(async (req, res) => {
 
     await database.saveToken({ socialNetwork: "Mastodon", token: responseJson.access_token, userId })
 
-    res.redirect('/temp/account');
+    res.redirect('/users/services_connexion');
 })

@@ -23,7 +23,7 @@ export default function Login() {
 
         // sans le '=== true' typescript n'est pas content
         if (result.success === true)
-            router.push('/users/account');
+            router.push('/users/services_connexion');
         else {
             let message: string;
             switch (result.reason) {

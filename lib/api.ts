@@ -19,7 +19,7 @@ export enum ApiRoute {
     AuthorizeMastodon = "/api/mastodon/authorize",
     AuthorizeTumblr = '/api/tumblr/authorize',
     Post = '/api/post',
-    Update = '/api/auth/update',
+    UpdateUser = '/api/auth/update',
 }
 
 export enum RegisterError {

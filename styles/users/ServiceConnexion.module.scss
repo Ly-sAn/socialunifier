@@ -10,8 +10,19 @@
     text-align: center;
     padding-top: 3%;
     display: flex;
-    flex-direction: column;
-    font-size: 2.1em;
+    justify-content: center;
+    align-items: center;
+    gap: 1.25em;
+    font-size: 2.1em;    
+  }
+
+  .services_update_link {
+      background-color: #64aa8e;
+      font-size: 1.15rem;
+      padding: 0.70em;
+      border-radius: 10px;
+      color: #fff;
+      margin-top: 1em;
   }
 
   .services_social_media_container {
@@ -19,7 +30,8 @@
     display: flex;
     justify-content: center;
     height: 100%;
-    margin-top: 10%;
+    margin-top: 7%;
+    
 
     .services_social_media {
       width: 70%;
