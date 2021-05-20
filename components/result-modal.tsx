@@ -26,9 +26,7 @@ export default class ResultModal extends React.Component<{ onClose: Function }, 
 
   }
 
-  closeModal() {
-    console.log("xxfd");
-    
+  closeModal() {   
     this.setState({
       opened: false,
       values: []

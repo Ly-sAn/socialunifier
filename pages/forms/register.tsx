@@ -2,11 +2,14 @@ import Link from 'next/link';
 import styles from '../../styles/forms/Register.module.scss';
 import router from 'next/router';
 import { ApiRoute, fetchApi, RegisterError } from '../../lib/api';
-import React from 'react';
+import React, { useState } from 'react';
 import ErrorBanner, { showError } from '../../components/error-banner';
 import Layout from '../../components/layout';
+import LoadingAnim from '../../components/loading-anim';
 
 export default function Register() {
+    const [isLoading, setLoading] = useState(false);
+
     async function register(e) {
         e.preventDefault();
 
@@ -14,11 +17,13 @@ export default function Register() {
             return showError("Mots de passe différents")
         }
 
+        setLoading(true);
         const result = await fetchApi(ApiRoute.Register, 'POST', {
             email: e.target.email.value,
             password: e.target.password.value,
             userName: e.target.userName.value,
         });
+        setLoading(false);
 
         // sans le '=== true' typescript n'est pas content
         if (result.success === true)
@@ -74,7 +79,7 @@ export default function Register() {
 
                                 </form>
 
-                                <button type="submit" form={styles.form_register}>Create Account</button>
+                                <button type="submit" form={styles.form_register} disabled={isLoading}>Create Account<LoadingAnim visible={isLoading}/></button>
                                 <p className={styles.exist_account}>Already have an account ?
                                     <span>
                                         <Link href="/forms/login">

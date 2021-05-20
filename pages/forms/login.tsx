@@ -4,17 +4,22 @@ import { ApiRoute, fetchApi, LoginError } from "../../lib/api";
 import router from "next/router";
 import ErrorBanner, { showError } from "../../components/error-banner";
 import Layout from "../../components/layout";
+import { useState } from "react";
+import LoadingAnim from "../../components/loading-anim";
 
 
 export default function Login() {
+    const [isLoading, setLoading] = useState(false);
     
     async function login(e) {
         e.preventDefault();
 
+        setLoading(true);
         const result = await fetchApi(ApiRoute.Login, 'POST', {
             email: e.target.email.value,
             password: e.target.password.value,
         });
+        setLoading(false);
 
         // sans le '=== true' typescript n'est pas content
         if (result.success === true)
@@ -62,7 +67,7 @@ export default function Login() {
                                         <input name="password" type="password" required/>
                                     </div>
 
-                                    <button type="submit">Sign in</button>
+                                    <button type="submit" disabled={isLoading}>Sign in<LoadingAnim visible={isLoading} /></button>
 
                                 </form>
 

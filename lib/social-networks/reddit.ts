@@ -57,16 +57,17 @@ export default class Reddit extends SocialNetworkApi {
         this.token = json.access_token;
     }
 
-    async post(content: string, medias: Media[], option?: OptionType): Promise<string> {
+    async post(content: string, medias: Media[], option: OptionType): Promise<string> {
+        console.log(option);
         let imageUrl: string;
-        if (medias.length > 0 && medias[0].mimeType.startsWith('image')) {
+        if (medias.length > 0 && medias[0].mimeType.startsWith('image') && option.imagePost) {
             imageUrl = await this.uploadImage(medias[0]);
         }
 
         const url = option.imagePost
             ? imageUrlTemplate(encodeURIComponent(option.subreddit), encodeURIComponent(imageUrl), encodeURIComponent(option.title))
             : textUrlTemplate(encodeURIComponent(option.subreddit), encodeURIComponent(content), encodeURIComponent(option.title));
-
+                
         const response = await (await fetch(url, {
             headers: {
                 Authorization: `bearer ${this.token}`,

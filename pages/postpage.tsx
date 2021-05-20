@@ -5,14 +5,14 @@ import { useState } from "react";
 import ErrorBanner, { showError } from "../components/error-banner";
 import type { ApiResult, Json, SocialNetwork } from "../types/global";
 import ResultModal, { openModal } from '../components/result-modal'
-
+import LoadingAnim from '../components/loading-anim';
 
 export default function PostPage() {
 
     const [selectedNetworks, setSelectedNetworks] = useState<Set<SocialNetwork>>(new Set());
     const user = useUser();
     const [redditToggle, setRedditToggle] = useState<boolean>(false);
-    const [isLoading, setIsLoading] = useState('Envoyer');
+    const [isLoading, setIsLoading] = useState(false);
 
     if (!user?.isLoggedIn)
         return <Layout><p>Chargement...</p></Layout>
@@ -31,7 +31,7 @@ export default function PostPage() {
             data.redditOptions = {
                 subreddit: e.target.reddit_subreddit.value,
                 title: e.target.reddit_title.value,
-                imagePost: redditToggle
+                imagePost: redditToggle,
             }
         }
 
@@ -41,10 +41,12 @@ export default function PostPage() {
             formData.append(i, e.target.media.files[i]);
         }
 
+        setIsLoading(true);
         const result: ApiResult = await (await fetch(ApiRoute.Post, {
             body: formData,
             method: 'POST',
         })).json();
+        setIsLoading(false);
 
         if (result.success) {
             console.log(result);
@@ -56,7 +58,6 @@ export default function PostPage() {
 
     function handleNetworkSelect(e) {
         const network = e.currentTarget.name;
-        console.log(e);
 
         if (e.currentTarget.checked)
             selectedNetworks.add(network);
@@ -69,13 +70,12 @@ export default function PostPage() {
         setRedditToggle(e.currentTarget.checked);
     }
 
-    function reset() {
-        console.log("s");
-        
+    function reset() {       
         for (const input of document.querySelectorAll<HTMLInputElement>('input, textarea')) {
             input.checked = false;
             input.value = '';
         }
+        setSelectedNetworks(new Set());
     }
 
     const networkSelector = user.networks.map(n => <>
@@ -139,7 +139,7 @@ export default function PostPage() {
                                     <div className="dot absolute left-1 top-1 bg-red-600 w-6 h-6 rounded-full transition"></div>
                                 </div>
                                 <div className="ml-3 text-gray-700 font-medium">
-                                    Reddit mode : {redditToggle ? "Texte" : "Image"}
+                                    Reddit mode : {redditToggle ? "Image" : "Text"}
                                 </div>
                             </label>
                         </div>
@@ -180,22 +180,16 @@ export default function PostPage() {
                         </div>
                     </div>
 
-                    <div className="">
-                        <div className=""></div>
-                        <div className="">
-                            <button className="shadow bg-green-400 hover:bg-green-300 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">
-                                {isLoading}
-                            </button>
-                        </div>
-                    </div>
+                    <button className="shadow inline-flex items-center bg-green-400 hover:bg-green-300 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" disabled={isLoading} type="submit">
+                        <span>Envoyer</span> <LoadingAnim visible={isLoading} />
+                    </button>
+
+                    <ErrorBanner />
                 </form>
-
-
 
             </div>
 
             <ResultModal onClose={reset} />
-            <ErrorBanner />
 
         </Layout>
     )

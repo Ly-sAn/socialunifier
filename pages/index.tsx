@@ -1,6 +1,7 @@
 import Layout from '../components/layout'
 import { useState } from 'react'
 import {validate} from '../lib/mail'
+import Link from 'next/link'
 
 export default function Home() {
 
@@ -665,8 +666,10 @@ export default function Home() {
               <div className="flex items-center justify-center">
                 <button
                   className="mx-auto lg:mx-0 hover:bg-green-400 bg-green-300 text-gray-800 font-bold rounded my-6 py-4 px-8 shadow-lg"
-                >
-                  <a href="/forms/register">Inscription</a> 
+                  >
+                    <Link href="/forms/register">
+                      <a>Inscription</a>
+                    </Link>
                 </button>
               </div>
             </div>
@@ -694,7 +697,9 @@ export default function Home() {
                 <button
                   className="mx-auto lg:mx-0 hover:bg-green-400 bg-green-300 gradient2 text-gray-800 font-bold rounded my-6 py-4 px-8 shadow-lg"
                 >
-                  <a href="/forms/register">Inscription</a> 
+                    <Link href="/forms/register">
+                      <a>Inscription</a>
+                    </Link>
                 </button>
               </div>
             </div>
@@ -728,7 +733,9 @@ export default function Home() {
                 <button
                   className="mx-auto lg:mx-0 hover:bg-green-400 bg-green-300 text-gray-800 font-bold rounded my-6 py-4 px-8 shadow-lg"
                 >
-                  <a href="/forms/register">Inscription</a> 
+                    <Link href="/forms/register">
+                      <a>Inscription</a>
+                    </Link>
                 </button>
               </div>
             </div>
