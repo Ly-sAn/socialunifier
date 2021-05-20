@@ -57,7 +57,7 @@ export default function Register() {
 
                                 <form onSubmit={register} id={styles.form_register}>
                                     <div className={styles.form_group}>
-                                        <label htmlFor="userName">Nom complet</label>
+                                        <label htmlFor="userName">Nom d'utilisateur </label>
                                         <input name="userName" type="text" required />
                                     </div>
                                     <div className={styles.form_group}>
@@ -79,7 +79,7 @@ export default function Register() {
                                 <p className={styles.exist_account}>Vous avez déjà un compte ?
                                     <span>
                                         <Link href="/forms/login">
-                                            <a>Connecter-vous</a>
+                                            <a>Connectez-vous</a>
                                         </Link>
                                     </span>
                                 </p>

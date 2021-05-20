@@ -59,14 +59,14 @@ export default function Login() {
                                         <input name="password" type="password" required/>
                                     </div>
 
-                                    <button type="submit" disabled={isLoading}>Sign in<LoadingAnim visible={isLoading} /></button>
+                                    <button type="submit" disabled={isLoading}>Connexion<LoadingAnim visible={isLoading} /></button>
 
                                 </form>
 
                                 <p className={loginStyles.exist_account}>Vous n'avez pas de compte ?
                                     <span>
                                     <Link href="/forms/register">
-                                        <a>Rejoinez-nous</a>
+                                        <a>Rejoignez-nous</a>
                                     </Link>
                                 </span>
                                 </p>
