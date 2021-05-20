@@ -128,7 +128,7 @@ export default function Home() {
               >
                   <path
                     d="M 17.699219 17 L 23.898438 25.398438 L 21.5 27 L 16 18.300781 L 10.5 27 L 8.199219 25.398438 L 14.398438 17 L 5.101563 14.601563 L 6 12 L 15.101563 15.199219 L 14.5 5 L 17.5 5 L 17 15.199219 L 26 12 L 26.800781 14.699219 Z"/></svg>
-            Diaspora</span>
+            Diaspora (à venir)</span>
 
                 <span className="w-1/2 p-4 md:w-auto flex items-center"
                 ><svg
@@ -652,7 +652,7 @@ export default function Home() {
                 Gratuit
               </div>
               <ul className="w-full text-center text-sm">
-                <li className=" py-4">Accès uniquement à FB et Insta</li>
+                <li className=" py-4">Accès limité</li>
                 <li className=" py-4">3 posts par jour</li>
                 <li className=" py-4">Pas de support client</li>
                 <li className=" py-4">Accès retardé aux MAJ</li>

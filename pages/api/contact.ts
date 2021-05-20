@@ -16,10 +16,10 @@ export default function (req: NextApiRequest, res: NextApiResponse) {
   const mailData = {
     from: 'socialunifier101@gmail.com',
     to: req.body.email,
-    subject: `Message From Earth`,
-    text: "Sent from: " + req.body.email,
-    html: `<div>COUCOU</div><p>Sent from:
-    ${req.body.email}</p>`
+    subject: `Newsletter de Social Unifier`,
+    text: "Envoyé par l'équipe de Social Unifier ",
+    html: `<h1>Merci d'avoir souscrit à la newsletter de Social Unfier</h1><p>Vous serez désormais mis au courant de nos dernières
+     nouveautés, et bien plus encore ! <br><br> A bientôt sur notre plateforme, <a href='http://localhost:3000'>L'équipe de Social Unifier</a> !</p>`
   };
 
   console.log(req.body);
