@@ -65,7 +65,7 @@ export default function Home() {
             <button
               className="mx-auto text-2xl lg:mx-0 bg-white hover:bg-gray-100 text-gray-800 font-extrabold rounded my-2 md:my-6 py-4 px-8 shadow-lg w-30"
             >
-              Inscription
+             <a href="/forms/register">Inscription</a>
         </button>
           </div>
 
@@ -666,7 +666,7 @@ export default function Home() {
                 <button
                   className="mx-auto lg:mx-0 hover:bg-green-400 bg-green-300 text-gray-800 font-bold rounded my-6 py-4 px-8 shadow-lg"
                 >
-                  Inscription
+                  <a href="/forms/register">Inscription</a> 
                 </button>
               </div>
             </div>
@@ -694,7 +694,7 @@ export default function Home() {
                 <button
                   className="mx-auto lg:mx-0 hover:bg-green-400 bg-green-300 gradient2 text-gray-800 font-bold rounded my-6 py-4 px-8 shadow-lg"
                 >
-                  Inscription
+                  <a href="/forms/register">Inscription</a> 
                 </button>
               </div>
             </div>
@@ -728,7 +728,7 @@ export default function Home() {
                 <button
                   className="mx-auto lg:mx-0 hover:bg-green-400 bg-green-300 text-gray-800 font-bold rounded my-6 py-4 px-8 shadow-lg"
                 >
-                  Inscription
+                  <a href="/forms/register">Inscription</a> 
                 </button>
               </div>
             </div>
