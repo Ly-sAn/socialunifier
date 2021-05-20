@@ -1,9 +1,48 @@
 import Link from "next/link";
 import { useState } from "react";
+import useUser from "../lib/useUser";
+import {useRouter} from "next/router";
 
 const Navbar = () => {
 
+    const user  =  useUser();
     const [active, setActive] = useState(false);
+    let navBtnLinks;
+
+     if (!user || user.isLoggedIn === false) {
+      navBtnLinks = <>
+        <Link href='/forms/login'>
+          <a className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:text-blue-100'>
+            Connexion
+          </a>
+        </Link>
+        <Link href='/forms/register'>
+          <button
+              className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-3 border border-gray-400 rounded shadow">
+            Inscription
+          </button>
+        </Link>
+      </>
+    } else if (user || user.isLoggedIn) {
+       navBtnLinks = <>
+         <Link href='/api/temp/post'>
+           <a className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:text-blue-100'>
+             Publier un post
+           </a>
+         </Link>
+         <Link href='/users/account'>
+           <a className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:text-blue-100'>
+             Mon compte
+           </a>
+         </Link>
+        <Link href='/api/auth/logout'>
+          <a className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:text-blue-100'>
+            Déconnexion
+          </a>
+        </Link>
+
+    </>
+  }
 
     const handleClick = () => {
       setActive(!active);
@@ -54,17 +93,8 @@ const Navbar = () => {
                   Tarifs
                 </a>
               </Link>
-              <Link href='/forms/login'>
-                <a className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:text-blue-100'>
-                  Connexion
-                </a>
-              </Link>
-              <Link href='/forms/register'>
-              <button
-                    className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-3 border border-gray-400 rounded shadow">
-                    Inscription
-                </button>
-              </Link>
+
+              { navBtnLinks }
             </div>
           </div>
         </nav>

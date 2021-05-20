@@ -17,7 +17,7 @@ export default function Login() {
         });
         
         if (result.success)
-            router.push('/temp/account');
+            router.push('/users/account');
         else {
             let message: string;
             switch (result.reason) {
