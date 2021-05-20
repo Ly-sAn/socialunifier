@@ -23,30 +23,36 @@ type OAuthRequestConstructor = {
     tokenKey?: string,
     tokenSecret?: string,
     body?: Json,
+    rawBody?: any,
 }
 export class OAuthRequest {
     private oauth: OAuth;
     private request: OAuth.RequestOptions;
     private token: OAuth.Token;
     private body: string;
+    private isJson: boolean;
 
     constructor(parameters: OAuthRequestConstructor) {
         this.oauth = createOAuth(parameters.key, parameters.secret);
         this.request = { method: parameters.method, url: parameters.url };
         if (parameters.tokenKey && parameters.tokenSecret)
             this.token = { key: parameters.tokenKey, secret: parameters.tokenSecret };
-        this.body = parameters.body;
+                
+        this.body = parameters.rawBody ?? JSON.stringify(parameters.body);
+
+        if (parameters.body)
+            this.isJson = true;
     }
 
     fetch() {
         const headers = this.oauth.toHeader(this.oauth.authorize(this.request, this.token)) as unknown as HeadersInit;
-        if (this.body)
+        if (this.isJson)
             headers['Content-Type'] = 'application/json';
         
         return fetch(this.request.url, {
             method: this.request.method,
             headers,
-            body: JSON.stringify(this.body)
+            body: this.body,
         });
     }
 

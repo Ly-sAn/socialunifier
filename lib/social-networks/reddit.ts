@@ -1,6 +1,17 @@
 import { Media } from "../../types/global";
 import database from "../database";
 import SocialNetworkApi from "./SocialNetworkApi";
+import crypto from "crypto";
+import FormData from "form-data";
+import DatauriParser from "datauri/parser";
+import path from "path";
+import { RequestError } from "../errors";
+
+const cloudinaryId = process.env.CLOUDINARY_ID;
+const cloudinarySecret = process.env.CLOUDINARY_SECRET;
+const cloudinaryName = process.env.CLOUDINARY_NAME;
+
+const imageUploadUrl = `https://api.cloudinary.com/v1_1/${cloudinaryName}/image/upload`;
 
 type OptionType = {
     subreddit: string,
@@ -46,18 +57,53 @@ export default class Reddit extends SocialNetworkApi {
         this.token = json.access_token;
     }
 
-    async post(content: string, media: Media, option?: OptionType): Promise<void> {
-        const url = option.postType === 'image'
-            ? imageUrlTemplate(encodeURIComponent(option.subreddit), encodeURIComponent(media.url), encodeURIComponent(option.title))
-            : textUrlTemplate(encodeURIComponent(option.subreddit), encodeURIComponent(content), encodeURIComponent(option.title));
+    async post(content: string, medias: Media[], option?: OptionType): Promise<string> {
+        let imageUrl: string;
+        if (medias.length > 0 && medias[0].mimeType.startsWith('image')) {
+            imageUrl = await this.uploadImage(medias[0]);
+        }
 
-        const response = await fetch(url, {
+        const url = option.postType === 'image'
+            ? imageUrlTemplate(encodeURIComponent(option.subreddit), encodeURIComponent(imageUrl), encodeURIComponent(option.title))
+            : textUrlTemplate(encodeURIComponent(option.subreddit), encodeURIComponent(""), encodeURIComponent(""));
+
+        const response = await (await fetch(url, {
             headers: {
                 Authorization: `bearer ${this.token}`,
             },
             method: "POST",
-        });
+        })).json();
 
-        console.log("Reddit a répondue:\n" + await response.text());
+        console.log("Reddit a répondue:\n" + JSON.stringify(response));
+        
+        // reddit élue pire réponse d'api du monde
+        if (!response.success) 
+            throw new RequestError(response.jquery[14][3][0]);
+        
+        return response.jquery[10][3][0];
+    }
+
+    async uploadImage(media:Media): Promise<string> {
+        const formData = new FormData();
+        const timestamp = Math.floor(Date.now() / 1000);
+        
+        const signature = crypto.createHash('sha1').update(`timestamp=${timestamp}${cloudinarySecret}`).digest('hex');
+
+        const dataUri = new DatauriParser().format(path.extname(media.fileName), media.buffer).content;       
+        
+        formData.append('timestamp', timestamp.toString());
+        formData.append('file', dataUri);
+        formData.append('signature', signature);
+        formData.append('api_key', cloudinaryId);
+        
+        const response = await (await fetch(imageUploadUrl, {
+            method: 'POST',
+            body: formData as unknown as BodyInit,
+        })).json();
+
+        if (response.error)
+            throw new Error("Erreur en envoyant une image a Cloudinary: " + JSON.stringify(response.error));
+
+        return response.url;
     }
 }

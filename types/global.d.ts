@@ -4,14 +4,16 @@ type Json = string | number | boolean | Json | Json[] | {
     [key: string]: Json;
 }
 
-type SocialNetwork = 'Reddit' | 'Mastodon' | 'Diaspora' | 'Tumblr'
+type SocialNetwork = 'Reddit' | 'Mastodon' | 'Tumblr'
 
 interface ErrorApiResult extends Json {
     success: false,
     reason: enum
+    [key: string]: Json;
 }
 interface SuccessApiResult extends Json {
     success: true
+    [key: string]: Json;
 }
 type ApiResult = SuccessApiResult | ErrorApiResult
 
@@ -43,7 +45,6 @@ interface UserLoggedIn {
 type User = UserNotLoggedIn | UserLoggedIn
 
 type Media = {
-    url: string,
     mimeType: string,
     buffer: Buffer,
     fileName: string,

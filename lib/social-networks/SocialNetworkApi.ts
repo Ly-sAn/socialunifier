@@ -1,6 +1,7 @@
 import { DbToken } from "../../types/db";
 import { Media, SocialNetwork } from "../../types/global";
 import database from "../database";
+import { RequestError } from "../errors";
 
 export default abstract class SocialNetworkApi {
     networkName: SocialNetwork;
@@ -15,6 +16,10 @@ export default abstract class SocialNetworkApi {
 
     async prepare(): Promise<void> {
         this.dbToken = await database.getToken(this.userId, this.networkName);
+
+        if (!this.dbToken)
+            throw new RequestError(`Vous n'êtes pas connecté à ${this.networkName}.`)
+
         this.token = this.dbToken.Code;
 
         if (this.dbToken.Expire && this.dbToken.Expire < new Date())
@@ -25,6 +30,6 @@ export default abstract class SocialNetworkApi {
         throw new Error("Not implemented");
     }
 
-    abstract post(content: string, media: Media | undefined, option?: any): Promise<void>;
+    abstract post(content: string, medias: Media[], option?: any): Promise<string>;
 
 }

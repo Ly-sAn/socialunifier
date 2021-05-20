@@ -17,7 +17,6 @@ export enum ApiRoute {
     User = '/api/auth/user',
     AuthorizeReddit = "/api/reddit/authorize",
     AuthorizeMastodon = "/api/mastodon/authorize",
-    AuthorizeDiaspora = '/api/diaspora/authorize',
     AuthorizeTumblr = '/api/tumblr/authorize',
     Post = '/api/post',
 }
@@ -37,5 +36,4 @@ export enum PostError {
     UnknownError,
     NotLoggedIn,
     NoCredentials,
-    MediaUploadError,
 }

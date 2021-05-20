@@ -1,9 +1,12 @@
 import { Json, Media } from "../../types/global";
 import { OAuthRequest } from "../OAuthRequest";
 import SocialNetworkApi from "./SocialNetworkApi";
+import FormData from "form-data";
+import { RequestError } from "../errors";
 
 const key = process.env.TUMBLR_CONSUMER_KEY;
 const secret = process.env.TUMBLR_SECRET_KEY;
+
 
 const urlTemplate = (blog: string) =>
     `https://api.tumblr.com/v2/blog/${blog}/posts`
@@ -30,32 +33,37 @@ export default class Tumblr extends SocialNetworkApi {
         if (!(userInfo.response.user.blogs?.length > 0 && userInfo.response.user.blogs[0].name)) {
             throw new Error("No blog found");
         }
-        console.log(userInfo.response.user.blogs[0]);
         this.blogName = userInfo.response.user.blogs[0].name;
     }
 
 
-    async post(content: string, media: Media): Promise<void> {
+    async post(content: string, medias: Media[]): Promise<string> {
+        const formData = new FormData();
+
         const data: Json = {
             content: [
                 {
                     type: 'text',
-                    text: content
+                    text: content,
                 }
             ],
         };
 
-        if (media) {
+        medias.forEach((media, i) => {
             data.content.push({
-                type: 'image',
+                type: media.mimeType.split('/')[0],
                 media: [
                     {
-                        url: media.url,
                         type: media.mimeType,
+                        identifier: 'media' + i,
                     },
                 ]
             })
-        }
+            formData.append('media' + i, media.buffer, media.fileName);
+        });
+
+        const json = JSON.stringify(data)
+        formData.append('json', json, { contentType: 'application/json', knownLength: json.length });
 
         const oauthRequest = new OAuthRequest({
             key, secret,
@@ -64,11 +72,15 @@ export default class Tumblr extends SocialNetworkApi {
             tokenKey: this.dbToken.Code,
             tokenSecret: this.dbToken.Secret,
 
-            body: data,
+            rawBody: formData,
         });
 
-        const response = await oauthRequest.fetch();
+        const response = await oauthRequest.fetchJson();
+        console.log("Tumblr a répondue:\n" + JSON.stringify(response));
 
-        console.log("Tumblr a répondue:\n" + await response.text());
+        if (response.meta.status != 201)
+            throw new RequestError(response.errors[0].detail);
+        
+        return `https://${this.blogName}.tumblr.com/post/${response.response.id}/`
     }
 }
