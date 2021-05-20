@@ -19,6 +19,7 @@ export enum ApiRoute {
     AuthorizeMastodon = "/api/mastodon/authorize",
     AuthorizeTumblr = '/api/tumblr/authorize',
     Post = '/api/post',
+    Update = '/api/auth/update',
 }
 
 export enum RegisterError {
@@ -36,4 +37,10 @@ export enum PostError {
     UnknownError,
     NotLoggedIn,
     NoCredentials,
+}
+
+export enum UpdateError {
+    UnknownError,
+    InvalidEmail,
+    ExistingEmail,
 }

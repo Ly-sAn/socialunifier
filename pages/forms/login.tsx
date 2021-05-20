@@ -15,10 +15,10 @@ export default function Login() {
             email: e.target.email.value,
             password: e.target.password.value,
         });
-        
+
         // sans le '=== true' typescript n'est pas content
         if (result.success === true)
-            router.push('/temp/account');
+            router.push('/users/account');
         else {
             let message: string;
             switch (result.reason) {

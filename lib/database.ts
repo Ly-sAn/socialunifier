@@ -121,6 +121,13 @@ export default class database {
         return newUser.Id;
     }
 
+    static async updateUser({email, pwHash, userName, id}) {
+        const db = await _db;
+        await db.run('UPDATE User SET Email = $email, PasswordHash = $password, UserName = $userName WHERE id = $id;', {$email: email, $password: pwHash, $userName: userName, $id: id});
+        const newCredentials = await db.get('SELECT Id FROM User WHERE Id = $id', {$id: id});
+        return newCredentials.Id;
+    }
+
     static async getAccount(id: number): Promise<DbUser | undefined> {
         const db = await _db;
         return await db.get('SELECT * FROM User WHERE Id = $id', { $id: id });

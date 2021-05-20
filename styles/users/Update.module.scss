@@ -1,0 +1,72 @@
+@import '../mixins/form-btn';
+@import '../mixins/media-query';
+
+.container {
+
+  background: #FBFDFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translate(10px, 30px);
+
+  .container_elements {
+    width: 80%;
+    max-width: 80%;
+    padding-bottom: 50px;
+
+  }
+
+  .user_update_title {
+    width: 100%;
+    text-align: center;
+    padding-top: 3%;
+    display: flex;
+    flex-direction: column;
+    font-size: 2.1em;
+  }
+
+  .user_update_form_container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    height: 100%;
+
+    .user_update_form {
+      width: 80%;
+      height: 80%;
+      margin-top: 2%;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+
+      .user_update_form_group {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 45px;
+        width: 50%;
+
+        > label {
+          padding-bottom: 5px;
+        }
+
+        > input {
+          width: 100%;
+          height: 35px;
+          border-radius: 10px;
+          border: 1px solid #2E365B;
+          padding-left: 10px;
+        }
+      }
+
+      button {
+        margin-top: 30px;
+      }
+
+      @include btn_authentication()
+
+    }
+
+  }
+
+}

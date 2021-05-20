@@ -13,7 +13,9 @@ export default function useUser(redirect = true): User {
             if (error)
                 console.error(error)
             if (error || user?.isLoggedIn === false) {
-                router.push('/forms/login')
+                if (router.pathname !== '/') {
+                    router.push('/forms/login')
+                }
             }
         }, [user, error])
     }
