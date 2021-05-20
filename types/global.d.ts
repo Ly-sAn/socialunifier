@@ -49,3 +49,15 @@ type Media = {
     buffer: Buffer,
     fileName: string,
 }
+
+interface FailedPost {
+    network: SocialNetwork,
+    success: false,
+    message: string,
+}
+interface SuccessfulPost {
+    network: SocialNetwork,
+    success: true,
+    url: string,
+}
+type PostResults = Array<FailedPost | SuccessfulPost>

@@ -4,7 +4,9 @@
         "cloudinary",
         "datauri",
         "originalname",
+        "postpage",
         "rowid",
+        "semibold",
         "subreddit"
     ]
 }

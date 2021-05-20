@@ -80,9 +80,9 @@ export default withSession(async (req, res: NextApiResponse<ApiResult>) => {
 
     res.json({
         success: true,
-        posts: results.map(r =>
+        posts: results.map((r, i) =>
             r.status === 'fulfilled'
-                ? { success: true, url: r.value }
-                : { success: false, message: r.reason instanceof RequestError ? r.reason.message : "Une erreur est survenue" })
+                ? { success: true, url: r.value, network: apis[i].networkName }
+                : { success: false, message: r.reason instanceof RequestError ? r.reason.message : "Une erreur est survenue", network: apis[i].networkName })
     });
 })

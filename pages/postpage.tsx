@@ -2,9 +2,9 @@ import Layout from "../components/layout";
 import useUser from "../lib/useUser";
 import { ApiRoute, fetchApi } from "../lib/api";
 import { useState } from "react";
-import { showError } from "../components/error-banner";
+import ErrorBanner, { showError } from "../components/error-banner";
 import type { ApiResult, Json, SocialNetwork } from "../types/global";
-import Modal from '../components/modal'
+import ResultModal, { openModal } from '../components/result-modal'
 
 
 export default function PostPage() {
@@ -38,7 +38,7 @@ export default function PostPage() {
         formData.append('request', JSON.stringify(data));
 
         for (const i in e.target.media.files) {
-            formData.append(i, e.target.media.files[i])
+            formData.append(i, e.target.media.files[i]);
         }
 
         const result: ApiResult = await (await fetch(ApiRoute.Post, {
@@ -46,8 +46,10 @@ export default function PostPage() {
             method: 'POST',
         })).json();
 
-        if (result.success)
-            console.log(result);            
+        if (result.success) {
+            console.log(result);
+            openModal(result.posts);
+        }
         else
             showError("Une erreur est survenue");
     }
@@ -65,6 +67,15 @@ export default function PostPage() {
 
     function textOrImage(e) {
         setRedditToggle(e.currentTarget.checked);
+    }
+
+    function reset() {
+        console.log("s");
+        
+        for (const input of document.querySelectorAll<HTMLInputElement>('input, textarea')) {
+            input.checked = false;
+            input.value = '';
+        }
     }
 
     const networkSelector = user.networks.map(n => <>
@@ -179,11 +190,12 @@ export default function PostPage() {
                     </div>
                 </form>
 
-                
+
 
             </div>
 
-            <Modal/>
+            <ResultModal onClose={reset} />
+            <ErrorBanner />
 
         </Layout>
     )
