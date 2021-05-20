@@ -4,6 +4,8 @@ import { ApiRoute, fetchApi } from "../lib/api";
 import { useState } from "react";
 import { showError } from "../components/error-banner";
 import type { ApiResult, Json, SocialNetwork } from "../types/global";
+import Modal from '../components/modal'
+
 
 export default function PostPage() {
 
@@ -177,7 +179,11 @@ export default function PostPage() {
                     </div>
                 </form>
 
+                
+
             </div>
+
+            <Modal/>
 
         </Layout>
     )
