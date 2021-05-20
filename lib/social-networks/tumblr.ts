@@ -2,7 +2,7 @@ import { Json, Media } from "../../types/global";
 import { OAuthRequest } from "../OAuthRequest";
 import SocialNetworkApi from "./SocialNetworkApi";
 import FormData from "form-data";
-import tumblr from "tumblr.js";
+import { RequestError } from "../errors";
 
 const key = process.env.TUMBLR_CONSUMER_KEY;
 const secret = process.env.TUMBLR_SECRET_KEY;
@@ -37,7 +37,7 @@ export default class Tumblr extends SocialNetworkApi {
     }
 
 
-    async post(content: string, medias: Media[]): Promise<void> {
+    async post(content: string, medias: Media[]): Promise<string> {
         const formData = new FormData();
 
         const data: Json = {
@@ -75,8 +75,12 @@ export default class Tumblr extends SocialNetworkApi {
             rawBody: formData,
         });
 
-        const response = await oauthRequest.fetch();
+        const response = await oauthRequest.fetchJson();
+        console.log("Tumblr a répondue:\n" + JSON.stringify(response));
 
-        console.log("Tumblr a répondue:\n" + await response.text());
+        if (response.meta.status != 201)
+            throw new RequestError(response.errors[0].detail);
+        
+        return `https://${this.blogName}.tumblr.com/post/${response.response.id}/`
     }
 }

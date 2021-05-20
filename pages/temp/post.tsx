@@ -48,7 +48,7 @@ export default function Post() {
         })).json();
 
         if (result.success)
-            router.push('/temp/account');
+            console.log(result);            
         else
             showError("Une erreur est survenue");
     }

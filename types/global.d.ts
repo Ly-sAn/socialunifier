@@ -9,9 +9,11 @@ type SocialNetwork = 'Reddit' | 'Mastodon' | 'Diaspora' | 'Tumblr'
 interface ErrorApiResult extends Json {
     success: false,
     reason: enum
+    [key: string]: Json;
 }
 interface SuccessApiResult extends Json {
     success: true
+    [key: string]: Json;
 }
 type ApiResult = SuccessApiResult | ErrorApiResult
 

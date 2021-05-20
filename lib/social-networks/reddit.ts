@@ -5,6 +5,7 @@ import crypto from "crypto";
 import FormData from "form-data";
 import DatauriParser from "datauri/parser";
 import path from "path";
+import { RequestError } from "../errors";
 
 const cloudinaryId = process.env.CLOUDINARY_ID;
 const cloudinarySecret = process.env.CLOUDINARY_SECRET;
@@ -56,7 +57,7 @@ export default class Reddit extends SocialNetworkApi {
         this.token = json.access_token;
     }
 
-    async post(content: string, medias: Media[], option?: OptionType): Promise<void> {
+    async post(content: string, medias: Media[], option?: OptionType): Promise<string> {
         let imageUrl: string;
         if (medias.length > 0 && medias[0].mimeType.startsWith('image')) {
             imageUrl = await this.uploadImage(medias[0]);
@@ -64,19 +65,25 @@ export default class Reddit extends SocialNetworkApi {
 
         const url = option.postType === 'image'
             ? imageUrlTemplate(encodeURIComponent(option.subreddit), encodeURIComponent(imageUrl), encodeURIComponent(option.title))
-            : textUrlTemplate(encodeURIComponent(option.subreddit), encodeURIComponent(content), encodeURIComponent(option.title));
+            : textUrlTemplate(encodeURIComponent(option.subreddit), encodeURIComponent(""), encodeURIComponent(""));
 
-        const response = await fetch(url, {
+        const response = await (await fetch(url, {
             headers: {
                 Authorization: `bearer ${this.token}`,
             },
             method: "POST",
-        });
+        })).json();
 
-        console.log("Reddit a répondue:\n" + await response.text());
+        console.log("Reddit a répondue:\n" + JSON.stringify(response));
+        
+        // reddit élue pire réponse d'api du monde
+        if (!response.success) 
+            throw new RequestError(response.jquery[14][3][0]);
+        
+        return response.jquery[10][3][0];
     }
 
-    async uploadImage(media:Media) {
+    async uploadImage(media:Media): Promise<string> {
         const formData = new FormData();
         const timestamp = Math.floor(Date.now() / 1000);
         

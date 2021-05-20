@@ -1,6 +1,7 @@
 import { Media } from "../../types/global";
 import SocialNetworkApi from "./SocialNetworkApi";
 import FormData from "form-data";
+import { RequestError } from "../errors";
 
 const url = 'https://mastodon.social/api/v1/statuses';
 
@@ -9,12 +10,12 @@ export default class Mastodon extends SocialNetworkApi {
         super(userId, 'Mastodon');
     }
 
-    async post(content: string, medias: Media[]): Promise<void> {
+    async post(content: string, medias: Media[]): Promise<string> {       
         const headers = {
             Authorization: `bearer ${this.token}`,
-        };        
+        };
 
-        const mediaIds = []
+        const mediaIds = [];
 
         for (const media of medias) {
             const formData = new FormData();
@@ -27,15 +28,13 @@ export default class Mastodon extends SocialNetworkApi {
             })).json();
 
             if (response.error)
-                throw new Error("Erreur en envoyant une image a Mastodon: " + JSON.stringify(response.error));
+                throw new RequestError(JSON.stringify(response.error));
+            
             
             mediaIds.push(response.id);
-        }
+        }        
 
-        console.log(mediaIds);
-        
-
-        const response = await fetch(url, {
+        const response = await (await fetch(url, {
             headers: {
                 Authorization: `bearer ${this.token}`,
                 'Content-Type': 'application/json',
@@ -45,8 +44,13 @@ export default class Mastodon extends SocialNetworkApi {
                 status: content,
                 media_ids: mediaIds,
             })
-        });
+        })).json();
 
-        console.log("Mastodon a répondue:\n" + await response.text());
+        console.log("Mastodon a répondue:\n" + JSON.stringify(response));
+
+        if (response.error)
+            throw new RequestError(response.error);            
+        
+        return response.url;
     }
 }

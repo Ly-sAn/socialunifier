@@ -7,6 +7,7 @@ import Tumblr from "../../lib/social-networks/tumblr";
 import SocialNetworkApi from "../../lib/social-networks/SocialNetworkApi";
 import { ApiResult, Media, SessionRequest, SocialNetwork } from "../../types/global";
 import multer from "multer";
+import { RequestError } from "../../lib/errors";
 
 const upload = multer({ limits: { fieldSize: 1e7 } });
 function initMiddleware(middleware: any) {
@@ -63,28 +64,28 @@ export default withSession(async (req, res: NextApiResponse<ApiResult>) => {
         }
     });
 
-    const results = await Promise.allSettled(
-        apis.map(async api => {
-            try {
-                await api.prepare();
 
+    const results = await Promise.allSettled(
+        apis.map(api => api.prepare()
+            .then(() => {
                 switch (api.networkName) {
                     case 'Reddit':
-                        api.post(content, medias, redditOptions);
-                        break;
+                        return api.post(content, medias, redditOptions);
                     default:
-                        api.post(content, medias);
-                        break;
+                        return api.post(content, medias);
                 }
-            } catch (error) {
-                console.error(error);
-            }
-        })
+            })
+        )
     );
 
-    if (results.every(r => r.status === 'fulfilled'))
-        return res.json({ success: true });
-    else
-        return res.json({ success: false, reason: PostError.UnknownError });
+    console.log(results[0].reason);
 
+
+    res.json({
+        success: true,
+        posts: results.map(r =>
+            r.status === 'fulfilled'
+                ? { success: true, url: r.value }
+                : { success: false, message: r.reason instanceof RequestError ? r.reason.message : "Une erreur est survenue" })
+    });
 })
