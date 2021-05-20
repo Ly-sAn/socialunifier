@@ -39,18 +39,10 @@ export default function Login() {
                         <div className={loginStyles.form_register_left_login}>
                             <div className={loginStyles.form_register_left_content}>
                                 <h1>Social Unifier</h1>
-                                <h3>Welcome to login page</h3>
                             </div>
                         </div>
                         <div className={loginStyles.form_register_right_login}>
                             <div className={loginStyles.form_container_right}>
-                                <div className={loginStyles.form_register_title}>
-                                    <h2>Login</h2>
-                                </div>
-
-                                <div className={loginStyles.form_register_text}>
-                                    <h4>Login to your account</h4>
-                                </div>
 
                                 <form onSubmit={login} className={loginStyles.form_register}>
                                     <div className={loginStyles.form_group}>
@@ -58,7 +50,7 @@ export default function Login() {
                                         <input name="email" type="email" required/>
                                     </div>
                                     <div className={loginStyles.form_group}>
-                                        <label htmlFor="password">Password</label>
+                                        <label htmlFor="password">Mot de passe</label>
                                         <input name="password" type="password" required/>
                                     </div>
 
@@ -66,10 +58,10 @@ export default function Login() {
 
                                 </form>
 
-                                <p className={loginStyles.exist_account}>Don't have an account ?
+                                <p className={loginStyles.exist_account}>Vous n'avez pas de compte ?
                                     <span>
                                     <Link href="/forms/register">
-                                        <a>Join us now</a>
+                                        <a>Rejoinez-nous</a>
                                     </Link>
                                 </span>
                                 </p>

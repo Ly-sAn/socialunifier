@@ -45,18 +45,14 @@ export default function Register() {
                         <div className={styles.form_register_left}>
                             <div className={styles.form_register_left_content}>
                                 <h1>Social Unifier</h1>
-                                <h3>Welcome to register page</h3>
                             </div>
                         </div>
                         <div className={styles.form_register_right}>
                             <div className={styles.form_container_right}>
-                                <div className={styles.form_register_title}>
-                                    <h2>Register</h2>
-                                </div>
 
                                 <form onSubmit={register} id={styles.form_register}>
                                     <div className={styles.form_group}>
-                                        <label htmlFor="userName">Full name</label>
+                                        <label htmlFor="userName">Nom complet</label>
                                         <input name="userName" type="text" required />
                                     </div>
                                     <div className={styles.form_group}>
@@ -64,21 +60,21 @@ export default function Register() {
                                         <input name="email" type="email" required />
                                     </div>
                                     <div className={styles.form_group}>
-                                        <label htmlFor="password">Password</label>
+                                        <label htmlFor="password">Mot de passe</label>
                                         <input name="password" type="password" required />
                                     </div>
                                     <div className={styles.form_group}>
-                                        <label htmlFor="passwordConfirm">Confirm password</label>
+                                        <label htmlFor="passwordConfirm">Confirmer le mot de passe</label>
                                         <input name="passwordConfirm" type="password" required />
                                     </div>
 
                                 </form>
 
                                 <button type="submit" form={styles.form_register}>Create Account</button>
-                                <p className={styles.exist_account}>Already have an account ?
+                                <p className={styles.exist_account}>Vous avez déjà un compte ?
                                     <span>
                                         <Link href="/forms/login">
-                                            <a>Log in</a>
+                                            <a>Connecter-vous</a>
                                         </Link>
                                     </span>
                                 </p>
