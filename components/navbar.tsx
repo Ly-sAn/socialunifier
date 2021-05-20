@@ -2,14 +2,22 @@ import Link from "next/link";
 import { useState } from "react";
 import useUser from "../lib/useUser";
 import {useRouter} from "next/router";
+import { ApiRoute, fetchApi } from "../lib/api";
+import { mutate } from "swr";
 
 const Navbar = () => {
-
-    const user  =  useUser();
+  const router = useRouter();
+    const user  =  useUser(false);
     const [active, setActive] = useState(false);
-    let navBtnLinks;
+    let navBtnLinks: JSX.Element;
+    
+    async function handleLogout(e) {
+      await fetchApi(ApiRoute.Logout, 'POST', {});
+      mutate(ApiRoute.User);
+      router.push('/');
+    }
 
-     if (!user || user.isLoggedIn === false) {
+     if (user?.isLoggedIn === false) {
       navBtnLinks = <>
         <Link href='/forms/login'>
           <a className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:text-blue-100'>
@@ -23,7 +31,7 @@ const Navbar = () => {
           </button>
         </Link>
       </>
-    } else if (user || user.isLoggedIn) {
+    } else if (user?.isLoggedIn) {
        navBtnLinks = <>
          <Link href='/api/temp/post'>
            <a className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:text-blue-100'>
@@ -40,11 +48,9 @@ const Navbar = () => {
              Mon compte
            </a>
          </Link>
-        <Link href='/api/auth/logout'>
-          <a className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:text-blue-100'>
-            Déconnexion
-          </a>
-        </Link>
+        <a className='cursor-pointer lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:text-blue-100' onClick={handleLogout}>
+          Déconnexion
+        </a>
 
     </>
   }
@@ -88,17 +94,6 @@ const Navbar = () => {
             }   w-full lg:inline-flex lg:flex-grow lg:w-auto`}
           >
             <div className='lg:inline-flex lg:flex-row lg:ml-auto lg:w-auto w-full lg:items-center items-start  flex flex-col lg:h-auto'>
-              <Link href='/'>
-                <a className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:text-blue-100'>
-                  Newsletter
-                </a>
-              </Link>
-              <Link href='/'>
-                <a className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:text-blue-100'>
-                  Tarifs
-                </a>
-              </Link>
-
               { navBtnLinks }
             </div>
           </div>

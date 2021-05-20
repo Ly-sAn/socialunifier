@@ -1,15 +1,11 @@
-import Head from 'next/head'
 import Layout from '../components/layout'
-import Image from 'next/image'
-import styles from '../styles/Home.module.scss'
-import Navbar from '../components/navbar'
 import { useState } from 'react'
 import {validate} from '../lib/mail'
 
 export default function Home() {
 
   const [submitted, setSubmitted] = useState(false)
-  const [emailMessage, setemailMessage] = useState('')
+  const [emailMessage, setEmailMessage] = useState('')
   
 
 
@@ -22,9 +18,9 @@ export default function Home() {
     console.log(email);
   
     if (validate(email)) {
-      setemailMessage('Mail envoyé !');
+      setEmailMessage('Mail envoyé !');
     } else {
-      setemailMessage('Mail invalide...');
+      setEmailMessage('Mail invalide...');
       return;
     }
 

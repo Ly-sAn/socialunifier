@@ -1,7 +1,5 @@
-import Navbar from "../../components/navbar";
 import useUser from "../../lib/useUser";
 import styles from '../../styles/users/Account.module.scss';
-import LeftNavBar from "../../components/leftNavbar";
 import Layout from "../../components/layout";
 
 
@@ -10,7 +8,7 @@ const UserAccount = () => {
     const user = useUser();
     let userName : string;
 
-    if (user && user.isLoggedIn) {
+    if (user?.isLoggedIn) {
         userName = user.userName;
     }
 
