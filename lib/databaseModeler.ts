@@ -59,11 +59,11 @@ export async function modelDatabase(model: DatabaseModel, db: Database) {
         for (const column of table.columns) {
             if (!existingColumns.some(c => c.name === column.name)) {
                 if (column.unique) {
-                    console.log(`${table.name}.${column.name}: Impossible d'ajouter un colonne avec un contrainte UNIQUE`);
+                    console.log(`${table.name}.${column.name}: Impossible d'ajouter une colonne avec une contrainte UNIQUE`);
                     column.unique = false;
                 }
                 if (column.notNull) {
-                    console.log(`${table.name}.${column.name}: Impossible d'ajouter un colonne avec un contrainte NOT NULL`);
+                    console.log(`${table.name}.${column.name}: Impossible d'ajouter une colonne avec une contrainte NOT NULL`);
                     column.notNull = false;
                 }
                 const statement = `

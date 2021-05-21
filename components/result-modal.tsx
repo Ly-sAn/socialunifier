@@ -80,7 +80,7 @@ export default class ResultModal extends React.Component<{ onClose: Function }, 
                       type="button"
                       onClick={() => this.closeModal()}
                     >
-                      Close
+                      Fermer
                   </button>
                   </div>
                 </div>
