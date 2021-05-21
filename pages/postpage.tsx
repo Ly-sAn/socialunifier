@@ -165,7 +165,7 @@ export default function PostPage() {
                                     </label>
                         </div>
                         <div className=" py-2 ">
-                            <input type="file" name="media" id="media" accept="image/*,video/*" />
+                            <input type="file" name="media" id="media" accept="image/*,video/*,audio/mp3" multiple/>
                         </div>
                     </div>
                     <div className=" mb-6">
